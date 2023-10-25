@@ -1,11 +1,47 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { useRoute } from "@react-navigation/native";
+import { signOut } from "firebase/auth";
+import React, { useEffect } from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { auth } from "../firebase/config";
+import { Button } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Home() {
+  // pegar usuario logado
+  useRoute();
+  const navigation = useNavigation();
+  const user = auth.currentUser;
+  const isLoading = false;
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Snuggle</Text>
-      <Text style={styles.subtitle}>Faça login para continuar</Text>
+      {/* retornar telefone do usuario */}
+      <View style={styles.userContainer}>
+        <Image
+          source={{ uri: user.photoURL }}
+          style={{ width: 50, height: 50, borderRadius: 25 }}
+        />
+        <View style={styles.userInfo}>
+          <View style={styles.welcomeContainer}>
+            <Text style={styles.welcomeText}>Olá Snuggler </Text>
+            <Text style={styles.userText}>{user.displayName}</Text>
+            {/* mostrar o nome */}
+          </View>
+        </View>
+      </View>
+      {/* fazer botao de sair */}
+      <Button
+        mode="contained"
+        onPress={() => {
+          signOut(auth);
+          AsyncStorage.removeItem("login");
+          navigation.navigate("Login", { isLoading: false });
+        }}
+      >
+        Sair
+      </Button>
+      {/* printa dados do usuario */}
     </View>
   );
 }
@@ -13,17 +49,28 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    padding: 16,
+  },
+  userContainer: {
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    padding: 16,
+    width: "100%",
   },
-  title: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "#1B1B1B",
+  userInfo: {
+    marginLeft: 16,
   },
-  subtitle: {
+  welcomeContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  welcomeText: {
+    color: "#000",
     fontSize: 16,
-    color: "#1B1B1B",
+  },
+  userText: {
+    color: "#000",
+    fontSize: 16,
+    fontWeight: "normal",
   },
 });

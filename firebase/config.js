@@ -1,6 +1,6 @@
 // Importe as funções necessárias do SDK do Firebase
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, initializeAuth } from "firebase/auth";
 import { getReactNativePersistence } from "firebase/auth"; // Importe a função getReactNativePersistence
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -16,13 +16,8 @@ const firebaseConfig = {
 
 // Inicialize o Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(ReactNativeAsyncStorage), // Defina o tipo de persistência para 'local'
+});
 
-// Configure o armazenamento persistente
-// para o aplicativo React Native
-// usando o armazenamento AsyncStorage
-const persistence = getReactNativePersistence(ReactNativeAsyncStorage);
-auth.setPersistence(persistence);
-
-// Exporte o objeto de configuração do Firebase
 export { auth };

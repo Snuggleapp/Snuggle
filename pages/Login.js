@@ -17,11 +17,13 @@ import {
 import { useEffect } from "react";
 import { auth } from "../firebase/config";
 import FlashMessage, { showMessage } from "react-native-flash-message";
-import { useNavigation } from "@react-navigation/native"; // Importe o hook useNavigation
+import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login() {
+  const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
-  const navigation = useNavigation(); // Chame o hook para obter o objeto de navegação
+  const navigation = useNavigation();
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     clientId:
       "1012033055362-tko6uu4s6uusp5mh8ljgcsb0ne6bnvj2.apps.googleusercontent.com",
@@ -30,93 +32,113 @@ export default function Login() {
 
   useEffect(() => {
     if (response?.type === "success") {
+      setIsLoading(true); // Inicie o carregamento aqui
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token);
-      signInWithCredential(auth, credential)
-        .then((userCredential) => {
-          // Verificar se o e-mail contém o domínio desejado
-          const user = userCredential.user;
-          if (user.email.endsWith("@sempreceub.com")) {
-            setUser(user);
-            navigation.navigate("Home"); // Navega para a tela Home
-          } else {
-            showMessage({
-              message: "E-mail não permitido",
-              description:
-                "Desculpe, você não tem permissão para acessar esta aplicação com este e-mail.",
-              type: "danger",
-            });
-            // Faça o que for necessário se o e-mail não for permitido
-          }
-        })
-        .catch((error) => {
-          console.error("Erro ao fazer login com o Firebase:", error);
-        });
+      signInWithCredential(auth, credential).then((userCredential) => {
+        // ir para home
+        navigation.navigate("Home", { isLoading });
+        // printar user
+        console.log(userCredential.user);
+        // salvar login
+        AsyncStorage.setItem("login");
+        setIsLoading(false); // Pare o carregamento aqui
+      });
     }
   }, [response]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      console.log(user);
+    // printar user
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsLoading(true);
+        // passar rota para home
+        navigation.navigate("Home", { isLoading });
+        // salvar login
+        AsyncStorage.setItem("login");
+      }
     });
-    return () => unsubscribe();
   }, []);
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Snuggle</Text>
-      <Text style={styles.subtitle}>Faça login para continuar</Text>
-      <Pressable
-        style={styles.button}
-        onPress={() => {
-          promptAsync();
-        }}
-      >
-        <Image source={require("../assets/google.png")} style={styles.icon} />
-        <Text style={styles.buttonText}>Entrar com Google</Text>
-      </Pressable>
-      {user && (
-        <View style={styles.user}>
-          <Image style={styles.userImage} source={{ uri: user.photoURL }} />
-          <Text style={styles.userText}>{user.displayName}</Text>
-          <Text style={styles.userText}>Email: {user.email}</Text>
-        </View>
-      )}
-      <FlashMessage position="top" />
-    </SafeAreaView>
-  );
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Image style={styles.load} source={require("../assets/logo.png")} />
+      </View>
+    );
+  } else {
+    return (
+      <SafeAreaView style={styles.container}>
+        <Image style={styles.bg} source={require("../assets/bg.png")} />
+        <Image style={styles.logo} source={require("../assets/logo.png")} />
+        <Pressable
+          style={styles.button}
+          onPress={() => {
+            promptAsync();
+            setIsLoading(true);
+          }}
+        >
+          <Image source={require("../assets/google.png")} style={styles.icon} />
+          <Text style={styles.buttonText}>Entrar com Google</Text>
+        </Pressable>
+        <FlashMessage position="top" />
+      </SafeAreaView>
+    );
+  }
 }
-
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     backgroundColor: "#fff",
     flex: 1,
-    justifyContent: "center",
   },
   title: {
-    color: "#000",
+    color: "white",
     fontSize: 48,
     fontWeight: "bold",
     marginBottom: 16,
   },
   subtitle: {
-    color: "#000",
-    fontSize: 24,
-    marginBottom: 16,
+    // um pouco mais pra baixo
+    color: "#5ac8fa",
+    fontSize: 30,
+    fontWeight: "bold",
+    // centralizar
+    textAlign: "center",
+    // sombra no texto
+    textShadowColor: "#2B85E6",
+    textShadowOffset: {
+      height: 2,
+      width: 0,
+    },
+    textShadowRadius: 1,
   },
   button: {
+    // posicionar no final
+    position: "absolute",
+    bottom: 32,
+
     alignItems: "center",
     backgroundColor: "#fff",
-    borderColor: "#000",
-    borderRadius: 4,
-    borderWidth: 1,
+    borderRadius: 50,
     flexDirection: "row",
-    justifyContent: "center",
     marginBottom: 16,
+    // espaçamento entre eles
+
     paddingHorizontal: 16,
     paddingVertical: 8,
+    // fazer sombra
+    shadowColor: "#000",
+    shadowOffset: {
+      height: 2,
+      width: 0,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 50,
+    elevation: 5,
+    // tamanho
+    height: 48,
+    width: 300,
   },
   buttonText: {
     color: "#000",
@@ -127,6 +149,8 @@ const styles = StyleSheet.create({
   icon: {
     height: 24,
     width: 24,
+    // espaço a direita
+    marginRight: 50,
   },
   user: {
     alignItems: "center",
@@ -142,5 +166,52 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     marginLeft: 8,
+  },
+  logo: {
+    height: 200,
+    width: 200,
+    // espaço em cima
+    marginTop: 150,
+    // faça ela ficar girando igual a uma moeda
+  },
+  bg: {
+    height: "100%",
+    position: "absolute",
+    width: "100%",
+
+    //
+  },
+  div: {
+    marginTop: 120,
+    alignItems: "center",
+    marginBottom: 16,
+    padding: 16,
+    paddingTop: 32,
+    // trasnslucent
+    opacity: 0.9,
+
+    // fundo branco
+    backgroundColor: "#fff",
+    // ate o final
+    height: "100%",
+    // bordas arredondadas
+    borderRadius: 40,
+    // sombra
+    shadowColor: "#000",
+    shadowOffset: {
+      height: 2,
+      width: 0,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 40,
+    elevation: 5,
+    width: "100%",
+  },
+  load: {
+    height: 200,
+    width: 200,
+    // posiconar no centro
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
