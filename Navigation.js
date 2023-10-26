@@ -17,7 +17,6 @@ function AppNavigator() {
   const [initialRoute, setInitialRoute] = useState(null);
   useEffect(() => {
     AsyncStorage.getItem("button").then((value) => {
-      console.log("valor do button: ", value);
       if (value === "true") {
         setInitialRoute("Login");
       } else {

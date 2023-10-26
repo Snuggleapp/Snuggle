@@ -13,7 +13,10 @@ export default function Presentation() {
     <View style={styles.container}>
       {/* <ion-icon name="heart-half-outline"></ion-icon> */}
       <Text
-        onPress={() => navigation.navigate("Login")}
+        onPress={async() => {
+          await AsyncStorage.setItem("button", "true");
+          navigation.navigate("Login")
+        }}
         style={styles.buttonIcon}
       >
         <Ionicons

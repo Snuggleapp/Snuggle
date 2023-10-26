@@ -27,6 +27,8 @@ export default function Login() {
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     clientId:
       "1012033055362-tko6uu4s6uusp5mh8ljgcsb0ne6bnvj2.apps.googleusercontent.com",
+    androidClientId:
+      "1012033055362-tko6uu4s6uusp5mh8ljgcsb0ne6bnvj2.apps.googleusercontent.com",
     scopes: ["https://www.googleapis.com/auth/userinfo.email"],
   });
 
@@ -39,11 +41,12 @@ export default function Login() {
         // ir para home
         navigation.navigate("Home", { isLoading });
         // printar user
-        console.log(userCredential.user);
         // salvar login
         AsyncStorage.setItem("login");
         setIsLoading(false); // Pare o carregamento aqui
       });
+    } else{
+      setIsLoading(false);
     }
   }, [response]);
 
