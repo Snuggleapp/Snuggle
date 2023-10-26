@@ -45,7 +45,7 @@ export default function Login() {
         AsyncStorage.setItem("login");
         setIsLoading(false); // Pare o carregamento aqui
       });
-    } else{
+    } else {
       setIsLoading(false);
     }
   }, [response]);
