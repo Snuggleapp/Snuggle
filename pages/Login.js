@@ -21,7 +21,6 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login() {
-  const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
   const navigation = useNavigation();
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
@@ -34,19 +33,16 @@ export default function Login() {
 
   useEffect(() => {
     if (response?.type === "success") {
-      setIsLoading(true); // Inicie o carregamento aqui
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential).then((userCredential) => {
         // ir para home
-        navigation.navigate("Home", { isLoading });
+        navigation.navigate("Home");
         // printar user
         // salvar login
         AsyncStorage.setItem("login");
-        setIsLoading(false); // Pare o carregamento aqui
       });
     } else {
-      setIsLoading(false);
     }
   }, [response]);
 
@@ -54,41 +50,32 @@ export default function Login() {
     // printar user
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        setIsLoading(true);
         // passar rota para home
-        navigation.navigate("Home", { isLoading });
+        navigation.navigate("Home");
         // salvar login
         AsyncStorage.setItem("login");
       }
     });
   }, []);
 
-  if (isLoading) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Image style={styles.load} source={require("../assets/logo.png")} />
-      </View>
-    );
-  } else {
-    return (
-      <SafeAreaView style={styles.container}>
-        <Image style={styles.bg} source={require("../assets/bg.png")} />
-        <Image style={styles.logo} source={require("../assets/logo.png")} />
-        <Pressable
-          style={styles.button}
-          onPress={() => {
-            promptAsync();
-            setIsLoading(true);
-          }}
-        >
-          <Image source={require("../assets/google.png")} style={styles.icon} />
-          <Text style={styles.buttonText}>Entrar com Google</Text>
-        </Pressable>
-        <FlashMessage position="top" />
-      </SafeAreaView>
-    );
-  }
+  return (
+    <SafeAreaView style={styles.container}>
+      <Image style={styles.bg} source={require("../assets/bg.png")} />
+      <Image style={styles.logo} source={require("../assets/logo.png")} />
+      <Pressable
+        style={styles.button}
+        onPress={() => {
+          promptAsync();
+        }}
+      >
+        <Image source={require("../assets/google.png")} style={styles.icon} />
+        <Text style={styles.buttonText}>Entrar com Google</Text>
+      </Pressable>
+      <FlashMessage position="top" />
+    </SafeAreaView>
+  );
 }
+
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
