@@ -4,9 +4,11 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import Presentation from "./pages/Presentation";
+// Presentation
+import Presentation from "./pages/presentation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // Importe o contexto de autenticação
 const Stack = createStackNavigator();
@@ -54,11 +56,97 @@ function AppNavigator() {
 
 function TabNavigator({ route }) {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarStyle: {
+          width: "90%", // Defina a largura desejada, neste caso 90%
+          height: 50, // Defina a altura desejada, neste caso 60
+          alignSelf: "center", // Alinha o Tab.Navigator no centro horizontalmente
+          backgroundColor: "#F3F3F3", // Defina a cor de fundo como desejado
+          bottom: 30, // Define o deslocamento superior desejado
+          borderRadius: 30,
+          position: "absolute",
+          alignItems: "center", // Alinhar itens no centro verticalmente
+          marginLeft: 20, // Ajuste a margem esquerda
+        },
+        tabBarItemStyle: {
+          justifyContent: "center", // Alinha os itens de cada aba no centro horizontalmente
+          alignItems: "center", // Alinha os itens de cada aba no centro verticalmente
+        },
+      }}
+    >
+      {/* icon com cesta de compra */}
       <Tab.Screen
-        name="Home1"
+        name="Shopping"
         component={Home}
-        options={{ title: "Home1", headerShown: false }}
+        options={{
+          headerShown: false,
+          tabBarLabel: "",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="cart"
+              color={color}
+              size={30}
+              style={{ marginTop: 5 }}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          headerShown: false,
+          tabBarLabel: "",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="home"
+              color={color}
+              size={30}
+              style={{
+                marginTop: 5,
+                backgroundColor: "white",
+                borderRadius: 50, // Use um valor alto para criar um círculo
+                width: 60, // Ajuste o tamanho do círculo
+                height: 60, // Ajuste o tamanho do círculo
+                alignItems: "center",
+                justifyContent: "center",
+                // margem em cima
+                marginTop: 10,
+                textAlign: "center",
+                textAlignVertical: "center",
+                // fazer sombra
+                shadowColor: "#000",
+                shadowOffset: {
+                  height: 2,
+                  width: 0,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 50,
+                elevation: 5,
+              }}
+            />
+          ),
+        }}
+      />
+
+      {/* perfil */}
+      <Tab.Screen
+        name="Profile"
+        component={Home}
+        options={{
+          headerShown: false,
+          tabBarLabel: "",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="account"
+              color={color}
+              size={30}
+              // style
+              style={{ marginTop: 5 }}
+            />
+          ),
+        }}
       />
     </Tab.Navigator>
   );

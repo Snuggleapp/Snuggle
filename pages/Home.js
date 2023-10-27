@@ -3,7 +3,7 @@ import { signOut } from "firebase/auth";
 import React, { useEffect } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { auth } from "../firebase/config";
-import { Button } from "react-native-paper";
+import { Button, Icon } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -59,23 +59,82 @@ export default function Home() {
             <Text style={styles.cardTextBottom}>Asa Norte</Text>
           </View>
 
-          <View style={styles.cardTextBoxBottom}>
+          <View style={styles.cardTextBoxBottom1}>
             <Text style={styles.cardTextBottom}>Doando desde</Text>
             <Text style={styles.cardTextBottom}>2021</Text>
           </View>
         </View>
       </View>
+      <Text style={styles.line}></Text>
+      <View style={styles.buttonCard}>
+        {/* icone */}
+        <Ionicons
+          style={styles.iconBottom}
+          name="heart-half-outline"
+          size={16}
+          color="black"
+        />
+        <View style={styles.buttonCardText}>
+          <Text style={styles.buttonText}>Doe agasalhos</Text>
+          <Text style={styles.buttonText}>Ajude quem precisa!</Text>
+        </View>
+        {/* icone de seta para direita*/}
+        <Ionicons
+          style={styles.icon}
+          name="chevron-forward-outline"
+          size={24}
+          color="black"
+        />
+      </View>
+      <Text style={styles.line}></Text>
+      <View style={styles.buttonCard}>
+        {/* icone */}
+        <Ionicons
+          style={styles.iconBottom}
+          // icone de cartao
+          name="card-outline"
+          size={16}
+          color="black"
+        />
+        <View style={styles.buttonCardText1}>
+          <Text style={styles.buttonText}>Ajude o Snuggle</Text>
+          <Text style={styles.buttonText}>Uma doação pode mudar vidas!</Text>
+        </View>
+        {/* icone de seta para direita*/}
+        <Ionicons
+          style={styles.icon}
+          name="chevron-forward-outline"
+          size={24}
+          color="black"
+        />
+      </View>
+      <Text style={styles.line}></Text>
+      <View style={styles.social}>
+        {/* icone do istagram */}
+        <Ionicons
+          style={styles.iconBottom}
+          name="logo-instagram"
+          size={24}
+          color="black"
+        />
+        {/* icone do tw */}
+        <Ionicons
+          style={styles.iconBottom}
+          name="logo-twitter"
+          size={24}
+          color="black"
+        />
+        {/* icone do face */}
+        <Ionicons
+          style={styles.iconBottom}
+          name="logo-facebook"
+          size={24}
+          color="black"
+        />
+      </View>
+
       {/* fazer botao de sair */}
-      <Button
-        mode="contained"
-        onPress={() => {
-          signOut(auth);
-          AsyncStorage.removeItem("login");
-          navigation.navigate("Login");
-        }}
-      >
-        Sair
-      </Button>
+
       {/* printa dados do usuario */}
     </View>
   );
@@ -148,5 +207,82 @@ const styles = StyleSheet.create({
   icon: {
     // espaço a esquerda
     marginLeft: 16,
+  },
+  cardTextBoxBottom: {
+    alignItems: "center",
+    // borada a direita
+    borderRightWidth: 0.5,
+    paddingRight: 8,
+    // cor da borda cinza claro
+    borderColor: "#ccc",
+  },
+  cardTextBoxBottom1: {
+    alignItems: "center",
+    // borada a direita
+    // cor da borda cinza claro
+    borderColor: "#ccc",
+    // espaço a direita
+  },
+  // fazer uma linha
+  line: {
+    marginTop: 16,
+    // cor da linha cinza claro
+    backgroundColor: "#ccc",
+    height: 0.5,
+    // espaço em cima e embaixo
+    marginVertical: 16,
+    width: "95%",
+    alignSelf: "center",
+  },
+  buttonCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    // espaço entre eles
+    justifyContent: "space-between",
+
+    // padding left e right
+    paddingHorizontal: 16,
+  },
+  iconBottom: {
+    // espaço a esquerda
+    marginLeft: 10,
+    // cor do fundo
+    backgroundColor: "white",
+    padding: 10,
+    borderRadius: 50,
+    // fazer card
+    textAlign: "center",
+    // sombra
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+  },
+  buttonCardText: {
+    // ir para esquerda
+    marginRight: 100,
+    // tamanho do texto
+  },
+  buttonText: {
+    fontSize: 12,
+  },
+  buttonCardText1: {
+    // ir para esquerda
+    marginRight: 40,
+    // tamanho do texto
+  },
+  social: {
+    flexDirection: "row",
+    alignItems: "center",
+    // padding left e right
+    paddingHorizontal: 16,
+    // centro
+    justifyContent: "center",
+    // espaço em cima
+    marginTop: 20,
   },
 });
