@@ -4,6 +4,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Map from "./pages/Map";
+import User from "./pages/User";
 // Presentation
 import Presentation from "./pages/presentation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -84,27 +86,28 @@ function TabNavigator({ route }) {
           tabBarLabel: "",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
+              // coin
               name="cart"
               color={color}
               size={30}
-              style={{ marginTop: 5 }}
+              style={{ marginTop: 8 }}
             />
           ),
         }}
       />
       <Tab.Screen
-        name="Home"
-        component={Home}
+        name="Map"
+        component={Map}
         options={{
           headerShown: false,
           tabBarLabel: "",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
-              name="home"
+              name="map"
               color={color}
               size={30}
               style={{
-                marginTop: 5,
+                marginTop: 10,
                 backgroundColor: "white",
                 borderRadius: 50, // Use um valor alto para criar um círculo
                 width: 60, // Ajuste o tamanho do círculo
@@ -132,8 +135,8 @@ function TabNavigator({ route }) {
 
       {/* perfil */}
       <Tab.Screen
-        name="Profile"
-        component={Home}
+        name="User"
+        component={User}
         options={{
           headerShown: false,
           tabBarLabel: "",
@@ -143,7 +146,7 @@ function TabNavigator({ route }) {
               color={color}
               size={30}
               // style
-              style={{ marginTop: 5 }}
+              style={{ marginTop: 8 }}
             />
           ),
         }}

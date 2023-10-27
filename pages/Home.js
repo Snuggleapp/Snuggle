@@ -7,13 +7,17 @@ import { Button, Icon } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+// imagem toca-aqui
+import TocaAqui from "../assets/toca-aqui.png";
 
 export default function Home() {
   // pegar usuario logado
   useRoute();
   const navigation = useNavigation();
   const user = auth.currentUser;
-
+  // pegar so o primeiro e o segundo nome
+  const name =
+    user.displayName.split(" ")[0] + " " + user.displayName.split(" ")[1];
   return (
     <View style={styles.container}>
       {/* retornar telefone do usuario */}
@@ -24,22 +28,19 @@ export default function Home() {
         />
         <View style={styles.userInfo}>
           <View style={styles.welcomeContainer}>
-            <Text style={styles.welcomeText}>Olá Snuggler </Text>
-            <Text style={styles.userText}>{user.displayName}</Text>
+            <Text style={styles.welcomeText}>Bem vindo </Text>
+            <Text style={styles.userText}>{name}</Text>
             {/* mostrar o nome */}
           </View>
+          <Text style={styles.welcomeText1}>Ola snuggler </Text>
+          {/* mostrar o telefone */}
         </View>
       </View>
 
       <View style={styles.card}>
         <View style={styles.cardTop}>
           {/* icone de acenação */}
-          <Ionicons
-            style={styles.icon}
-            name="hand-left-outline"
-            size={24}
-            color="black"
-          />
+          <Image source={TocaAqui} style={{ width: 50, height: 50 }} />
 
           <View style={styles.cardTextBox}>
             <Text style={styles.cardText}>Doações do mês</Text>
@@ -71,7 +72,7 @@ export default function Home() {
         <Ionicons
           style={styles.iconBottom}
           name="heart-half-outline"
-          size={16}
+          size={20}
           color="black"
         />
         <View style={styles.buttonCardText}>
@@ -93,7 +94,7 @@ export default function Home() {
           style={styles.iconBottom}
           // icone de cartao
           name="card-outline"
-          size={16}
+          size={20}
           color="black"
         />
         <View style={styles.buttonCardText1}>
@@ -132,10 +133,6 @@ export default function Home() {
           color="black"
         />
       </View>
-
-      {/* fazer botao de sair */}
-
-      {/* printa dados do usuario */}
     </View>
   );
 }
@@ -160,12 +157,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   welcomeText: {
+    fontSize: 20,
+  },
+  welcomeText1: {
     fontSize: 16,
-    fontWeight: "bold",
+    // cor do texto cinza nao tao claro
+    color: "#A8A7A7",
   },
   userText: {
-    fontSize: 16,
-    marginLeft: 8,
+    fontSize: 20,
+    // padding
   },
 
   card: {

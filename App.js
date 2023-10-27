@@ -12,7 +12,7 @@ export default function App() {
 
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor="#FFFF" />
+      <StatusBar hidden />
       <AppNavigator />
     </>
   );
