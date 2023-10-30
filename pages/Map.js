@@ -88,9 +88,15 @@ export default function Map() {
       <MapView
         style={styles.map}
         ref={mapRef}
+        // tirar botoes de zoom
+        zoomControlEnabled={false}
+        // tirar botao de localizacao
         onRegionChangeComplete={checkMapCenter}
         showsUserLocation={true}
         showsMyLocationButton={false}
+        // tirar todos os botoes
+        showsCompass={false}
+        // tirar google log
         initialRegion={
           location && {
             latitude: location.coords.latitude,
@@ -100,29 +106,24 @@ export default function Map() {
           }
         }
         toolbarEnabled={false}
-      >
-        {location && (
-          <>
-            <Marker
-              coordinate={{
-                latitude: location.coords.latitude,
-                longitude: location.coords.longitude,
-              }}
-              title="Minha Localização"
-            />
-          </>
-        )}
-      </MapView>
-      <TextInput
-        style={styles.searchInput}
-        placeholder="Pesquisar local"
-        onSubmitEditing={searchLocation}
-        onChangeText={(text) => setSearchText(text)}
-        value={searchText}
-      />
-      <TouchableOpacity style={styles.searchButton} onPress={searchLocation}>
-        <Text style={styles.searchButtonText}>Pesquisar</Text>
-      </TouchableOpacity>
+      ></MapView>
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          onSubmitEditing={searchLocation}
+          onChangeText={(text) => setSearchText(text)}
+          value={searchText}
+          placeholder="Search location..."
+        />
+        <TouchableOpacity style={styles.searchButton} onPress={searchLocation}>
+          <Icon
+            name="search"
+            size={16}
+            // cor cinza claro
+            color="#aaa"
+          />
+        </TouchableOpacity>
+      </View>
       {!isMapCentered && (
         <TouchableOpacity
           style={styles.buttonContainer}
@@ -157,6 +158,8 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 1,
+    // passar um pouco da tela
+    marginBottom: -30,
   },
   buttonContainer: {
     position: "absolute",
@@ -172,26 +175,45 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  searchInput: {
+  searchContainer: {
     position: "absolute",
     top: 16,
-    left: 16,
-    width: "70%",
+    left: 40,
+    // faça um card
     backgroundColor: "white",
+    width: "80%",
+    borderRadius: 50,
+    flexDirection: "row",
+    justifyContent: "space-between",
     padding: 8,
-    borderRadius: 8,
+    paddingLeft: 20,
+    paddingRight: 12,
+    // sombra
+    shadowColor: "black",
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    elevation: 4,
   },
   searchButton: {
-    position: "absolute",
-    top: 16,
-    right: 16,
-    marginBottom: 16,
-    backgroundColor: "blue",
-    padding: 8,
-    borderRadius: 8,
-  },
-  searchButtonText: {
-    color: "white",
+    // fazer sombra no texto
+    shadowColor: "black",
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    elevation: 4,
+    backgroundColor: "white",
+    borderRadius: 50,
+    width: 30,
+    height: 30,
+    justifyContent: "center",
+    alignItems: "center",
   },
   errorContainer: {
     position: "absolute",

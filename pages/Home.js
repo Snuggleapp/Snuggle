@@ -81,6 +81,7 @@ export default function Home() {
         </View>
         {/* icone de seta para direita*/}
         <Ionicons
+          onPress={() => navigation.navigate("Map")}
           style={styles.icon}
           name="chevron-forward-outline"
           size={24}
@@ -103,6 +104,7 @@ export default function Home() {
         </View>
         {/* icone de seta para direita*/}
         <Ionicons
+          onPress={() => navigation.navigate("DonationApp")}
           style={styles.icon}
           name="chevron-forward-outline"
           size={24}

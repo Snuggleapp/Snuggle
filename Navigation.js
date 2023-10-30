@@ -5,7 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Map from "./pages/Map";
-import User from "./pages/User";
+import DonationApp from "./pages/DonationApp";
 // Presentation
 import Presentation from "./pages/presentation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -51,6 +51,11 @@ function AppNavigator() {
           component={Presentation}
           options={{ title: "Presentation", headerShown: false }}
         />
+        <Stack.Screen
+          name="DonationApp"
+          component={DonationApp}
+          options={{ title: "DonationApp", headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -77,19 +82,18 @@ function TabNavigator({ route }) {
         },
       }}
     >
-      {/* icon com cesta de compra */}
       <Tab.Screen
-        name="Shopping"
+        name="Home"
         component={Home}
         options={{
           headerShown: false,
           tabBarLabel: "",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
-              // coin
-              name="cart"
+              name="account"
               color={color}
               size={30}
+              // style
               style={{ marginTop: 8 }}
             />
           ),
@@ -132,20 +136,19 @@ function TabNavigator({ route }) {
           ),
         }}
       />
-
-      {/* perfil */}
+      {/* icon com cesta de compra */}
       <Tab.Screen
-        name="User"
-        component={User}
+        name="Shopping"
+        component={Home}
         options={{
           headerShown: false,
           tabBarLabel: "",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
-              name="account"
+              // coin
+              name="cart"
               color={color}
               size={30}
-              // style
               style={{ marginTop: 8 }}
             />
           ),
