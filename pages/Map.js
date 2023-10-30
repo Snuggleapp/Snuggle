@@ -54,15 +54,21 @@ export default function Map() {
   ];
 
   const openGoogleMapsRoute = (marker) => {
+    if (!location || !location.coords) {
+      console.error("Localização não disponível.");
+      return;
+    }
+
     const origin = `${location.coords.latitude},${location.coords.longitude}`;
     const destination = `${marker.latitude},${marker.longitude}`;
     const url = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}`;
-    Linking.openURL(url).catch((err) =>
-      console.error("Erro ao abrir o Google Maps: ", err)
-    );
 
-    // Defina o estado para ocultar o botão de rota
-    setShowRouteButton(false);
+    Linking.openURL(url)
+      .then(() => {
+        // Defina o estado para ocultar o botão de rota
+        setShowRouteButton(false);
+      })
+      .catch((err) => console.error("Erro ao abrir o Google Maps: ", err));
   };
 
   useEffect(() => {
@@ -73,16 +79,21 @@ export default function Map() {
           console.log("Permissão de localização negada");
           return;
         }
+
         const location = await Location.getCurrentPositionAsync({});
-        setLocation(location);
-        setCircleRadius(1000); // Defina o raio do círculo em metros (1000 metros neste exemplo)
-        if (mapRef.current) {
-          mapRef.current.animateToRegion({
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
-            latitudeDelta: 0.02,
-            longitudeDelta: 0.02,
-          });
+        if (location) {
+          setLocation(location);
+          setCircleRadius(1000); // Defina o raio do círculo em metros (1000 metros neste exemplo)
+          if (mapRef.current) {
+            mapRef.current.animateToRegion({
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude,
+              latitudeDelta: 0.02,
+              longitudeDelta: 0.02,
+            });
+          }
+        } else {
+          console.error("Falha ao obter a localização.");
         }
       } catch (error) {
         console.error("Erro ao obter a localização: ", error);
