@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     fontSize: 20,
     padding: 10,
-    paddingLeft: 20,
+
     fontWeight: "bold",
     // fazer card
     backgroundColor: "#fff",

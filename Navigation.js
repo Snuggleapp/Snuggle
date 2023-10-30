@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Map from "./pages/Map";
 import DonationApp from "./pages/DonationApp";
+import Shopping from "./pages/Shopping";
 // Presentation
 import Presentation from "./pages/presentation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -139,7 +140,7 @@ function TabNavigator({ route }) {
       {/* icon com cesta de compra */}
       <Tab.Screen
         name="Shopping"
-        component={Home}
+        component={Shopping}
         options={{
           headerShown: false,
           tabBarLabel: "",
