@@ -3,10 +3,18 @@
     "name": "snuggle-tcc",
     "slug": "snuggle-tcc",
     "scheme": "snuggle-tcc",
-    "version": "1.0.6",
+    "version": "1.0.22",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
+      ]
+    ],
 
     "splash": {
       "image": "./assets/splash.png",
@@ -19,17 +27,23 @@
       "bundleIdentifier": "com.snuggle.tcc"
     },
     "android": {
-      "versionCode": 7,
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBvSPmFjGXTx8IgjHKFnFYo8vi4klUc9ks"
+          
+        }
+      },
+      "versionCode": 23,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "config": {
-        "googleMaps": {
-          "apiKey": "AIzaSyDGXX54Ie_ximk_IDqDtltSUwXXnVRNYf8"
-        }
-      },
-      "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"],
+
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION"
+      ],
       "package": "com.snuggle.tcc"
     },
     "web": {
