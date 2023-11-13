@@ -8,7 +8,7 @@ import Map from "./pages/Map";
 import DonationApp from "./pages/DonationApp";
 import Shopping from "./pages/Shopping";
 // Presentation
-import Presentation from "./pages/presentation";
+import Presentation from "./pages/Presentation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -84,7 +84,7 @@ function TabNavigator({ route }) {
       }}
     >
       <Tab.Screen
-        name="Home"
+        name="Home1"
         component={Home}
         options={{
           headerShown: false,

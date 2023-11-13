@@ -1,40 +1,55 @@
+import * as Location from "expo-location";
 import React, { useEffect, useState } from "react";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import { StyleSheet, View, Text } from "react-native";
-import { requestBackgroundPermissionsAsync } from "expo-location";
+import { Button, StyleSheet, Text, View } from "react-native";
+// react-native-maps
+import MapView from "react-native-maps";
+
+
+
 
 export default function Map() {
-  const [location, setLocation] = useState({});
+  const [status, requestPermission] = Location.useForegroundPermissions();
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [region, setRegion] = useState(null);
 
   useEffect(() => {
-    async function requestLocationPermission() {
-      const { granted } = await requestBackgroundPermissionsAsync();
-      if (granted) {
-        const { coords } = await Location.getCurrentPositionAsync({});
-        setLocation(coords);
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
       }
-    }
-    requestLocationPermission();
-  }, []);
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+      setRegion({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.0143,
+        longitudeDelta: 0.0134,
+      });
+    })();
+  }
+  , []);
+
+  let text = "Waiting..";
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (location) {
+    text = JSON.stringify(location);
+  }
+
 
   return (
     <View style={styles.container}>
       <MapView
-        provider={PROVIDER_GOOGLE}
         style={styles.map}
+        initialRegion={region}
         showsUserLocation={true}
-
-        region={{
-          latitude: location.latitude || 0,
-          longitude: location.longitude || 0,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-      >
-      </MapView>
-      <Text style={styles.text}>
-        {location.latitude || 0}, {location.longitude || 0}
-      </Text>
+      />
+      <Text style={styles.paragraph}>{text}</Text>
+      <Button title="Permissão" onPress={() => requestPermission()} />
     </View>
   );
 }
@@ -42,22 +57,20 @@ export default function Map() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#ffff",
+    alignItems: "center",
+    justifyContent: "center",
+
+  },
+  paragraph: {
+    position: "absolute",
+    margin: 24,
+    fontSize: 18,
+    textAlign: "center",
   },
   map: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  text: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    backgroundColor: "white",
-    padding: 10,
+    width: "100%",
+    height: "100%",
   },
 });
-
-
-
- 
-
-
 

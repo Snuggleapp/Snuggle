@@ -40,7 +40,7 @@ export default function Login() {
         navigation.navigate("Home");
         // printar user
         // salvar login
-        AsyncStorage.setItem("login");
+        AsyncStorage.setItem("login","1");
       });
     } else {
     }
@@ -53,7 +53,7 @@ export default function Login() {
         // passar rota para home
         navigation.navigate("Home");
         // salvar login
-        AsyncStorage.setItem("login");
+        AsyncStorage.setItem("login","1");
       }
     });
   }, []);

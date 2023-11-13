@@ -28,6 +28,10 @@
       "bundleIdentifier": "com.snuggle.tcc"
     },
     "android": {
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION"
+      ],
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyBvSPmFjGXTx8IgjHKFnFYo8vi4klUc9ks"
