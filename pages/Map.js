@@ -1,45 +1,40 @@
 import React, { useEffect, useState } from "react";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { StyleSheet, View, Text } from "react-native";
-import * as Location from "expo-location";
+import { requestBackgroundPermissionsAsync } from "expo-location";
 
 export default function Map() {
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
-  const [region, setRegion] = useState(null);
+  const [location, setLocation] = useState({});
 
   useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
+    async function requestLocationPermission() {
+      const { granted } = await requestBackgroundPermissionsAsync();
+      if (granted) {
+        const { coords } = await Location.getCurrentPositionAsync({});
+        setLocation(coords);
       }
-
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-      setRegion({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      });
-    })();
+    }
+    requestLocationPermission();
   }, []);
 
   return (
     <View style={styles.container}>
-      {location ? (
-        <MapView
-          provider={PROVIDER_GOOGLE}
-          style={styles.map}
-          region={region}
-          showsUserLocation={true}
-        >
-        </MapView>
-      ) : (
-        <Text>Loading...</Text>
-      )}
+      <MapView
+        provider={PROVIDER_GOOGLE}
+        style={styles.map}
+        showsUserLocation={true}
+
+        region={{
+          latitude: location.latitude || 0,
+          longitude: location.longitude || 0,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+      >
+      </MapView>
+      <Text style={styles.text}>
+        {location.latitude || 0}, {location.longitude || 0}
+      </Text>
     </View>
   );
 }
@@ -47,15 +42,22 @@ export default function Map() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
   },
   map: {
     ...StyleSheet.absoluteFillObject,
   },
+  text: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    backgroundColor: "white",
+    padding: 10,
+  },
 });
 
+
+
+ 
 
 
 
