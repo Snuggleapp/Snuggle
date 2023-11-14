@@ -207,12 +207,19 @@ export default function Map() {
         customMapStyle={mapStyle}
         style={styles.map}
         region={region}
-        showsUserLocation={true}
-        showsMyLocationButton={false}
         onPanDrag={handlePanDrag}
         onPress={handleMapPress}
-        showsCompass={false} // Esconde a bússola
-        showsTraffic={false} // Esconde o tráfego
+        showsMyLocationButton={false}
+        showsUserLocation={true}
+        showsPointsOfInterest={false}
+        showsCompass={false}
+        showsScale={false}
+        showsBuildings={false}
+        showsTraffic={false}
+        showsIndoors={false}
+        showsIndoorLevelPicker={false}
+        
+
       >
         {markers.map((marker, index) => (
           <Marker
@@ -261,7 +268,7 @@ const styles = StyleSheet.create({
   },
   map: {
     width: "100%",
-    height: "100%",
+    height: "108%",
     zIndex: -1,
   },
   searchContainer: {
