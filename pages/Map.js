@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { FontAwesome } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Map() {
   const [status, requestPermission] = Location.useForegroundPermissions();
@@ -24,6 +25,8 @@ export default function Map() {
   const [showMarkerButtons, setShowMarkerButtons] = useState(false);
   const [mapIsMoving, setMapIsMoving] = useState(false);
 
+  const navigation = useNavigation();
+
   const handlePanDrag = () => {
     setShowMarkerButtons(false);
     setMapIsMoving(false);
@@ -33,6 +36,10 @@ export default function Map() {
     setShowMarkerButtons(false);
     setMapIsMoving(false);
   };
+
+  const navToDonate = () => {
+      navigation.navigate("DonationDate");
+  }
 
   useEffect(() => {
     (async () => {
@@ -245,7 +252,7 @@ export default function Map() {
           <FontAwesome name="location-arrow" size={24} color="white" />
         </TouchableOpacity>
         {mapIsMoving && (
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={navToDonate}>
             <FontAwesome name="gift" size={24} color="white" />
           </TouchableOpacity>
         )}
