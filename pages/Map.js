@@ -1,22 +1,26 @@
-  import * as Location from "expo-location";
-  import React, { useEffect, useState, useRef } from "react";
-  import {
-    StyleSheet,
-    View,
-    TouchableOpacity,
-    TextInput,
-    Text,
-    ActivityIndicator,
-    Linking
-  } from "react-native";
-  import MapView, { Marker } from "react-native-maps";
-  import { FontAwesome } from "@expo/vector-icons";
-  import { useNavigation } from "@react-navigation/native";
+import * as Location from "expo-location";
+import React, { useEffect, useState, useRef } from "react";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  TextInput,
+  Text,
+  ActivityIndicator,
+} from "react-native";
+import MapView, { Marker } from "react-native-maps";
+import { FontAwesome } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
   export default function Map() {
     // navegação
     const navigation = useNavigation();
+  const navigation = useNavigation();
 
+  const handlePanDrag = () => {
+    setShowMarkerButtons(false);
+    setMapIsMoving(false);
+  };
     const [status, requestPermission] = Location.useForegroundPermissions();
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
@@ -30,6 +34,18 @@
     const [mapIsMoving, setMapIsMoving] = useState(false);
     const [selectedMarker, setSelectedMarker] = useState(null);
 
+
+
+  const navToDonate = () => {
+      navigation.navigate("DonationDate");
+  }
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
 
     const openGoogleMaps = () => {
       if (region && (selectedMarker || markers.length > 0)) {
@@ -241,6 +257,16 @@
           
 
         >
+          <FontAwesome name="location-arrow" size={24} color="white" />
+        </TouchableOpacity>
+        {mapIsMoving && (
+          <TouchableOpacity style={styles.button} onPress={navToDonate}>
+            <FontAwesome name="gift" size={24} color="white" />
+          </TouchableOpacity>
+        )}
+        {mapIsMoving && (
+          <TouchableOpacity style={styles.button}>
+            <FontAwesome name="map" size={24} color="white" />
           {markers.map((marker, index) => (
             <Marker
               key={index}
