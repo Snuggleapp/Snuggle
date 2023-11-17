@@ -175,6 +175,8 @@
           },
         ],
       },
+      // 
+
     ];
 
     const markers = [
@@ -185,6 +187,7 @@
         },
         title: "Uniceub",
         description: "Centro de Doação",
+        id: "1",
       },
       {
         coordinate: {
@@ -193,7 +196,9 @@
         },
         title: "Hospital",
         description: "Hospital Central",
+        id: "2",
       },
+      
     ];
 
     return (
@@ -268,7 +273,16 @@
           {mapIsMoving && (
             <TouchableOpacity style={styles.button}
               onPress={() => {
-                navigation.navigate("Donation");
+                navigation.navigate(
+                  "Donation",
+                  // id do marker
+                  { id: selectedMarker.id }
+
+                
+                );
+                // deixar a propria invisivel
+
+                
               }}
             >
               <FontAwesome name="gift" size={24} color="white"  />

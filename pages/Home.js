@@ -15,7 +15,16 @@ export default function Home() {
   useRoute();
   const navigation = useNavigation();
   const user = auth.currentUser;
-  // pegar so o primeiro e o segundo nome
+
+  // printar email
+  console.log(user.email);
+  // nome
+  console.log(user.displayName);
+  // id
+  console.log(user.uid);
+
+
+  
   const name =
     user.displayName.split(" ")[0] + " " + user.displayName.split(" ")[1];
   return (
@@ -134,7 +143,9 @@ export default function Home() {
           size={24}
           color="black"
         />
+       
       </View>
+      {/* botao para deslogar */}
     </View>
   );
 }

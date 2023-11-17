@@ -36,11 +36,9 @@ export default function Login() {
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential).then((userCredential) => {
-        // ir para home
         navigation.navigate("Home");
-        // printar user
-        // salvar login
         AsyncStorage.setItem("login","1");
+        // console log login
       });
     } else {
     }
@@ -54,6 +52,8 @@ export default function Login() {
         navigation.navigate("Home");
         // salvar login
         AsyncStorage.setItem("login","1");
+        
+
       }
     });
   }, []);
