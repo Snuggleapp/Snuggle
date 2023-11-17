@@ -45,8 +45,8 @@ export default function Donation() {
   };
 
   const [tipoRoupa, setTipoRoupa] = useState("");
-
-
+  const [expandedId, setExpandedId] = useState("0");
+  
 
   const getPageContent = () => {
     switch (page) {
@@ -66,28 +66,40 @@ export default function Donation() {
             <Text style={styles.text}>Dados da doação</Text>
 
             {/* tipo de roupa, deixar escolher entre casaco, camisa, calça */}
-            <List.AccordionGroup>
-              <List.Accordion 
-              // title aparece o tipo de roupa selecionado
-              title={tipoRoupa || "Tipo de Roupa"}
-               id="1"
-              // aparecer aberto
+            <List.AccordionGroup
+              // expand list = 0
+              expandedId={expandedId}
+              onAccordionPress={setExpandedId}
+            >
+              <List.Accordion
+                // title aparece o tipo de roupa selecionado
+                title={tipoRoupa || "Tipo de Roupa"}
+                id="1"
+                // aparecer aberto
               >
                 {/* selecionar */}
                 <List.Item
                   title="Camisa"
-                  // envia o valor para o tipo de roupa
-                  onPress={() => setTipoRoupa("Camisa")}
+                  // envia o valor para o tipo de roupa e expand list = 0
+                  onPress={() => {
+                    setTipoRoupa("Camisa");
+                    setExpandedId("0");
+                  }}
                 />
                 <List.Item
                   title="Calça"
                   // envia o valor para o tipo de roupa
-                  onPress={() => setTipoRoupa("Calça")}
+                  onPress={() => {
+                    setTipoRoupa("Casaco");
+                    setExpandedId("0");
+                  }}
                 />
                 <List.Item
                   title="Casaco"
-                  // envia o valor para o tipo de roupa
-                  onPress={() => setTipoRoupa("Casaco")}
+                  onPress={() => {
+                    setTipoRoupa("Calça");
+                    setExpandedId("0");
+                  }}
                 />
               </List.Accordion>
             </List.AccordionGroup>
@@ -152,7 +164,7 @@ export default function Donation() {
             <View style={styles.containerQuantidade}>
               <Ionicons
                 style={styles.icon}
-                name="remove-circle-outline"
+                name="remove"
                 size={24}
                 color="black"
                 // remove 1 da quantidade
@@ -165,7 +177,7 @@ export default function Donation() {
               {/* botao com o icone de mais */}
               <Ionicons
                 style={styles.icon}
-                name="add-circle-outline"
+                name="add"
                 size={24}
                 color="black"
                 // adiciona mais 1 na quantidade
