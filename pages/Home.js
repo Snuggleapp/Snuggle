@@ -1,8 +1,9 @@
 import { useRoute } from "@react-navigation/native";
-import { signOut } from "firebase/auth";
 import React, { useEffect } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { auth } from "../firebase/config";
+import { signOut } from "firebase/auth";
+import { auth, db } from "../firebase/config";
+import { ref, set } from 'firebase/database'
 import { Button, Icon } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
@@ -15,7 +16,14 @@ export default function Home() {
   useRoute();
   const navigation = useNavigation();
   const user = auth.currentUser;
-  // pegar so o primeiro e o segundo nome
+  // insere o usuario no banco se ele for novo
+const updateData = () => {
+    set(ref(db, 'Users/' + user.uid),{
+        email: user.email,
+        nome: user.displayName,
+    });
+}
+
   const name =
     user.displayName.split(" ")[0] + " " + user.displayName.split(" ")[1];
   return (
@@ -81,7 +89,7 @@ export default function Home() {
         </View>
         {/* icone de seta para direita*/}
         <Ionicons
-          onPress={() => navigation.navigate("Map")}
+          onPress={() => navigation.navigate("UpdateData")}
           style={styles.icon}
           name="chevron-forward-outline"
           size={24}
@@ -287,5 +295,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     // espaço em cima
     marginTop: 20,
+  },
+  button: {
+    backgroundColor: 'red',
   },
 });
