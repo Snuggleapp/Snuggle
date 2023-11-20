@@ -8,6 +8,9 @@ import Map from "./pages/Map";
 import DonationApp from "./pages/DonationApp";
 import Shopping from "./pages/Shopping";
 import UpdateData from "./pages/UpdateData";
+import donationDate from './pages/donationDate'
+
+// Presentation
 import Presentation from "./pages/Presentation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
@@ -56,6 +59,16 @@ function AppNavigator() {
           name="DonationApp"
           component={DonationApp}
           options={{ title: "DonationApp", headerShown: false }}
+        />
+        <Stack.Screen
+          name="DonationDate"
+          component={donationDate}
+          options={{ title: "donationDate.js", headerShown: false }}
+        />
+        <Stack.Screen
+          name="Map"
+          component={Map}
+          options={{ title: "Map Screen", headerShown: false }}
         />
         <Stack.Screen
           name="UpdateData"
