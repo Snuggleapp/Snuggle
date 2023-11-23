@@ -19,9 +19,9 @@ import { auth } from "../firebase/config";
 import FlashMessage, { showMessage } from "react-native-flash-message";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ActivityIndicator } from "react-native-paper";
 
 export default function Login() {
-  const [user, setUser] = useState(null);
   const navigation = useNavigation();
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     clientId:
@@ -38,11 +38,31 @@ export default function Login() {
       signInWithCredential(auth, credential).then((userCredential) => {
         navigation.navigate("Home");
         AsyncStorage.setItem("login","1");
-        // console log login
       });
     } else {
+      setIsLoading(false);
     }
   }, [response]);
+
+  // verificar se o usuario esta logado
+  useEffect(() => {
+    // printar user
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsLoading(true);
+        // passar rota para home
+        navigation.navigate("Home");
+        // salvar login
+        AsyncStorage.setItem("login","1");
+        
+
+      }
+      else{
+        setIsLoading(false);
+      }
+    });
+  }, []);
+
 
   useEffect(() => {
     // printar user
@@ -58,6 +78,22 @@ export default function Login() {
     });
   }, []);
 
+  // controla o estado de loadding
+  const [isLoading, setIsLoading] = useState(false);
+
+  // fazer um loading
+  if (isLoading) {
+    return (
+      <View style={styles.load}>
+        <Image style={styles.loadingImage} source={require("../assets/logo.png")} />
+        
+      </View>
+    );
+  }
+
+  console.log(isLoading);
+
+
   return (
     <SafeAreaView style={styles.container}>
       <Image style={styles.bg} source={require("../assets/bg.png")} />
@@ -66,10 +102,13 @@ export default function Login() {
         style={styles.button}
         onPress={() => {
           promptAsync();
+          setIsLoading(true);
+
         }}
       >
         <Image source={require("../assets/google.png")} style={styles.icon} />
-        <Text style={styles.buttonText}>Entrar com Google</Text>
+        <Text style={styles.buttonText}
+        >Entrar com Google</Text>
       </Pressable>
       <FlashMessage position="top" />
     </SafeAreaView>
@@ -135,6 +174,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     marginLeft: 8,
+    fontFamily: "Inter_700Bold",
   },
   icon: {
     height: 24,
@@ -151,6 +191,9 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     height: 48,
     width: 48,
+    // cor da borda
+    borderColor: "black",
+    
   },
   userText: {
     fontSize: 16,
@@ -198,10 +241,15 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   load: {
-    height: 200,
-    width: 200,
-    // posiconar no centro
+    width: "100%",
+    height: "100%",
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#fff",
+
+  },
+  loadingImage: {
+    width: 200,
+    height: 200,
   },
 });

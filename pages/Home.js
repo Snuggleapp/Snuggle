@@ -9,6 +9,10 @@ import { useNavigation } from "@react-navigation/native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 // imagem toca-aqui
 import TocaAqui from "../assets/toca-aqui.png";
+// status bar
+import { StatusBar } from "expo-status-bar";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { Linking } from "react-native";
 
 export default function Home() {
   // pegar usuario logado
@@ -16,12 +20,9 @@ export default function Home() {
   const navigation = useNavigation();
   const user = auth.currentUser;
 
-  // printar email
-  console.log(user.email);
-  // nome
-  console.log(user.displayName);
-  // id
-  console.log(user.uid);
+  // console.log(user.email);
+  // console.log(user.displayName);
+  // console.log(user.uid);
 
 
   
@@ -29,11 +30,12 @@ export default function Home() {
     user.displayName.split(" ")[0] + " " + user.displayName.split(" ")[1];
   return (
     <View style={styles.container}>
+      <StatusBar style="black" translucent={true} />
       {/* retornar telefone do usuario */}
       <View style={styles.userContainer}>
         <Image
           source={{ uri: user.photoURL }}
-          style={{ width: 50, height: 50, borderRadius: 25 }}
+          style={{ width: 50, height: 50, borderRadius: 25, borderColor: "#ccc", borderWidth: 1.5 }}
         />
         <View style={styles.userInfo}>
           <View style={styles.welcomeContainer}>
@@ -48,78 +50,89 @@ export default function Home() {
 
       <View style={styles.card}>
         <View style={styles.cardTop}>
-          {/* icone de acenação */}
           <Image source={TocaAqui} style={{ width: 50, height: 50 }} />
 
           <View style={styles.cardTextBox}>
             <Text style={styles.cardText}>Doações do mês</Text>
-            {/* doações do mes 10 */}
-            <Text style={styles.cardText}>10</Text>
+            <Text style={styles.cardText1}>10</Text>
           </View>
         </View>
         <View style={styles.cardBottom}>
           {/* total do ano */}
           <View style={styles.cardTextBoxBottom}>
             <Text style={styles.cardTextBottom}>Total do ano</Text>
-            <Text style={styles.cardTextBottom}>100 itens</Text>
+            <Text style={styles.cardTextBottom1}>100 itens</Text>
           </View>
           <View style={styles.cardTextBoxBottom}>
             {/* ultima doação */}
             <Text style={styles.cardTextBottom}>Ultima doação</Text>
-            <Text style={styles.cardTextBottom}>Asa Norte</Text>
+            <Text style={styles.cardTextBottom1}>Asa Norte</Text>
           </View>
 
           <View style={styles.cardTextBoxBottom1}>
             <Text style={styles.cardTextBottom}>Doando desde</Text>
-            <Text style={styles.cardTextBottom}>2021</Text>
+            <Text style={styles.cardTextBottom1}>2021</Text>
           </View>
         </View>
       </View>
       <Text style={styles.line}></Text>
-      <View style={styles.buttonCard}>
-        {/* icone */}
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate("Map")}
+      >
         <Ionicons
           style={styles.iconBottom}
           name="heart-half-outline"
           size={20}
-          color="black"
+          color="#1a73e8"
         />
-        <View style={styles.buttonCardText}>
+        <View style={styles.conteinerText}>
           <Text style={styles.buttonText}>Doe agasalhos</Text>
-          <Text style={styles.buttonText}>Ajude quem precisa!</Text>
+          <Text style={styles.buttonText1}>Ajude quem precisa!</Text>
         </View>
-        {/* icone de seta para direita*/}
         <Ionicons
-          onPress={() => navigation.navigate("Map")}
-          style={styles.icon}
+          style={{
+            // pocicionar no fim hotizontal
+            position: "absolute",
+            right: 0,
+            // espaço a direita
+            marginRight: 10,
+          }}
           name="chevron-forward-outline"
           size={24}
           color="black"
         />
-      </View>
+      </TouchableOpacity>
+
       <Text style={styles.line}></Text>
-      <View style={styles.buttonCard}>
-        {/* icone */}
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate("DonationApp")}
+      >
         <Ionicons
           style={styles.iconBottom}
-          // icone de cartao
           name="card-outline"
           size={20}
-          color="black"
+          color="#1a73e8"
         />
-        <View style={styles.buttonCardText1}>
+        <View style={styles.conteinerText}>
           <Text style={styles.buttonText}>Ajude o Snuggle</Text>
-          <Text style={styles.buttonText}>Uma doação pode mudar vidas!</Text>
+          <Text style={styles.buttonText1}>Uma doação pode mudar vidas!</Text>
         </View>
-        {/* icone de seta para direita*/}
         <Ionicons
-          onPress={() => navigation.navigate("DonationApp")}
-          style={styles.icon}
+          style={{
+            // pocicionar no fim hotizontal
+            position: "absolute",
+            right: 0,
+            // espaço a direita
+            marginRight: 10,
+          }}
           name="chevron-forward-outline"
           size={24}
           color="black"
         />
-      </View>
+      </TouchableOpacity>
+     
       <Text style={styles.line}></Text>
       <View style={styles.social}>
         {/* icone do istagram */}
@@ -128,6 +141,10 @@ export default function Home() {
           name="logo-instagram"
           size={24}
           color="black"
+          // redirecionar para o instagram
+          onPress={() => {
+            Linking.openURL("https://www.instagram.com/");
+          }}
         />
         {/* icone do tw */}
         <Ionicons
@@ -135,6 +152,11 @@ export default function Home() {
           name="logo-twitter"
           size={24}
           color="black"
+
+          // redirecionar para o twitter
+          onPress={() => {
+            Linking.openURL("https://twitter.com/");
+          }}
         />
         {/* icone do face */}
         <Ionicons
@@ -142,10 +164,24 @@ export default function Home() {
           name="logo-facebook"
           size={24}
           color="black"
+          // redirecionar para o facebook
+          onPress={() => {
+            Linking.openURL("https://www.facebook.com/");
+          }}
         />
-       
       </View>
       {/* botao para deslogar */}
+      <Button
+        style={styles.buttonSair}
+        mode="contained"
+        onPress={() => {
+          signOut(auth);
+          AsyncStorage.removeItem("user");
+          navigation.navigate("Login");
+        }}
+      >
+        Sair
+      </Button>
     </View>
   );
 }
@@ -162,6 +198,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 32,
     padding: 10,
+    marginTop: 30,
   },
   userInfo: {
     marginLeft: 16,
@@ -218,10 +255,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginTop: 16,
   },
-  icon: {
-    // espaço a esquerda
-    marginLeft: 16,
-  },
+
   cardTextBoxBottom: {
     alignItems: "center",
     // borada a direita
@@ -282,7 +316,16 @@ const styles = StyleSheet.create({
     // tamanho do texto
   },
   buttonText: {
+    // negrito
+    fontWeight: "bold",
     fontSize: 12,
+  },
+  buttonText1: {
+    // negrito
+    fontWeight: "bold",
+    fontSize: 12,
+    // cor do texto cinza nao tao claro
+    color: "#A8A7A7",
   },
   buttonCardText1: {
     // ir para esquerda
@@ -298,5 +341,54 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     // espaço em cima
     marginTop: 20,
+  },
+  buttonSair: {
+    marginTop: 50,
+    // cor do fundo
+    backgroundColor: "#1a73e8",
+    // tamanho do texto
+    fontSize: 20,
+    width: "80%",
+    // alinhar no centro
+    alignSelf: "center",
+
+    // alinhar no centro
+    alignItems: "center",
+    // cor do texto
+    color: "#fff",
+    // fazer card
+    borderRadius: 50,
+    // sombra
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+  },
+  button: {
+    flexDirection: "row",
+    alignItems: "center",
+    // espaço entre eles
+    // padding left e right
+    paddingHorizontal: 16,
+    height: 48,
+    // espaço entre eles
+  },
+  conteinerText: {
+    // espaço a esquerda
+    marginLeft: 10,
+  },
+  cardText1: {
+    // tamanho do texto
+    // cor do texto cinza nao tao claro
+    color: "#A8A7A7",
+  },
+  cardTextBottom1: {
+    // tamanho do texto
+    // cor do texto cinza nao tao claro
+    color: "#A8A7A7",
   },
 });

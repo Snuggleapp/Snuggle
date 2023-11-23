@@ -3,9 +3,9 @@
     "name": "snuggle-tcc",
     "slug": "snuggle-tcc",
     "scheme": "snuggle-tcc",
-    "version": "1.0.28",
+    "version": "1.2.2",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logoApp.png",
     "userInterfaceStyle": "light",
     "plugins": [
       [
@@ -15,12 +15,12 @@
         }
       ],
       
-      [
-      "expo-image-picker",
-      {
-        "photosPermission": "The app accesses your photos to let you share them with your friends."
-      }
-    ]
+     [
+       "expo-camera",
+       {
+         "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
+       }
+     ]
     ],
 
     "splash": {
@@ -44,7 +44,7 @@
           
         }
       },
-      "versionCode": 29,
+      "versionCode": 33,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"

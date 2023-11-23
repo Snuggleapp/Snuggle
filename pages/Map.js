@@ -11,7 +11,13 @@
   } from "react-native";
   import MapView, { Marker } from "react-native-maps";
   import { FontAwesome } from "@expo/vector-icons";
+  import { FontAwesome5 } from "@expo/vector-icons";
+
   import { useNavigation } from "@react-navigation/native";
+  // status bar
+  import { StatusBar } from "expo-status-bar";
+import { Chip } from "react-native-paper";
+import { ScrollView } from "react-native-gesture-handler";
 
   export default function Map() {
     // navegação
@@ -198,23 +204,136 @@
         description: "Hospital Central",
         id: "2",
       },
+
+      {
+        // -15.79328042283634, -47.88130073198738
+        coordinate: {
+          latitude: -15.79328042283634,
+          longitude: -47.88130073198738,
+        },
+        title: "Conjunto nacional",
+        description: "Centro de Doação",
+        id: "3",
+      },
       
     ];
 
+    // função para ir para a o marcador mais proximo
+    const goToNearestMarker = () => {
+      if (mapViewRef.current) {
+        let minDistance = null;
+        let nearestMarker = null;
+        for (let i = 0; i < markers.length; i++) {
+          const marker = markers[i];
+          const distance = Math.sqrt(
+            Math.pow(region.latitude - marker.coordinate.latitude, 2) +
+              Math.pow(region.longitude - marker.coordinate.longitude, 2)
+          );
+          if (minDistance === null || distance < minDistance) {
+            minDistance = distance;
+            nearestMarker = marker;
+          }
+        }
+        if (nearestMarker) {
+          mapViewRef.current.animateToRegion({
+            latitude: nearestMarker.coordinate.latitude,
+            longitude: nearestMarker.coordinate.longitude,
+            latitudeDelta: 0.0143,
+            longitudeDelta: 0.0134,
+          });
+          setSelectedMarker(nearestMarker);
+          markerRef.current.showCallout();
+
+        }
+      }
+    };
+
+    const markerRef = useRef(null);
+    
+
+
+
+
     return (
       <View style={styles.container}>
+        <StatusBar style="light" />
         <View style={styles.searchContainer}>
-          <TextInput
-            ref={searchInputRef}
-            style={styles.searchInput}
-            placeholder="Search for an address"
-            value={searchText}
-            onChangeText={(text) => setSearchText(text)}
-            onSubmitEditing={handleConfirm}
-          />
-          <TouchableOpacity style={styles.searchButton} onPress={handleConfirm}>
-            <FontAwesome name="search" size={20} color="white" />
-          </TouchableOpacity>
+          <View style={styles.chipstyle}>
+            <TextInput
+              ref={searchInputRef}
+              style={styles.searchInput}
+              placeholder="Pesquise um endereço"
+              value={searchText}
+              onChangeText={(text) => setSearchText(text)}
+              onSubmitEditing={handleConfirm}
+            />
+            <TouchableOpacity
+              style={styles.searchButton}
+              onPress={handleConfirm}
+            >
+              <FontAwesome name="search" size={20} color="white" />
+            </TouchableOpacity>
+          </View>
+          <ScrollView
+            style={{}}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{
+              gap: 16,
+            }}
+          >
+            <Chip
+              elevated={true}
+              icon={() => (
+                <FontAwesome name="map-marker" color={"#1a73e8"} size={16} />
+              )}
+              textStyle={{ fontFamily: "Inter_500Medium" }}
+              style={{
+                marginTop: 10,
+                backgroundColor: "white",
+                // sombra
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 3,
+              }}
+              onPress={() => {
+                setMapIsMoving(true);
+                goToNearestMarker();
+              }}
+            >
+              {/* icone */}
+              Posto mais próximo
+            </Chip>
+            {mapIsMoving && (
+              <Chip
+                icon={() => (
+                  <FontAwesome5 name="route" color={"#1a73e8"} size={16} />
+                )}
+                style={{
+                  marginTop: 10,
+                  backgroundColor: "white",
+                  // sombra
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 2,
+                  },
+                  shadowOpacity: 0.25,
+                  shadowRadius: 3.84,
+                  elevation: 3,
+                }}
+                // abrir posto mais proximo
+                onPress={openGoogleMaps}
+              >
+                Traçar rota
+              </Chip>
+            )}
+          </ScrollView>
         </View>
 
         {loading && (
@@ -224,7 +343,7 @@
         )}
         {notFound && (
           <View style={styles.notFoundContainer}>
-            <Text style={styles.notFoundText}>Location not found</Text>
+            <Text style={styles.notFoundText}>Não localizado</Text>
           </View>
         )}
         <MapView
@@ -243,8 +362,6 @@
           showsTraffic={false}
           showsIndoors={false}
           showsIndoorLevelPicker={false}
-          
-
         >
           {markers.map((marker, index) => (
             <Marker
@@ -252,6 +369,7 @@
               coordinate={marker.coordinate}
               title={marker.title}
               description={marker.description}
+              ref={markerRef}
               onPress={() => {
                 setShowMarkerButtons(true);
                 setMapIsMoving(true);
@@ -271,26 +389,13 @@
             <FontAwesome name="location-arrow" size={24} color="white" />
           </TouchableOpacity>
           {mapIsMoving && (
-            <TouchableOpacity style={styles.button}
+            <TouchableOpacity
+              style={styles.buttonGift}
               onPress={() => {
-                navigation.navigate(
-                  "Donation",
-                  // id do marker
-                  { id: selectedMarker.id }
-
-                
-                );
-                // deixar a propria invisivel
-
-                
+                navigation.navigate("Donation", { id: selectedMarker.id });
               }}
             >
-              <FontAwesome name="gift" size={24} color="white"  />
-            </TouchableOpacity>
-          )}
-          {mapIsMoving && (
-            <TouchableOpacity style={styles.button}>
-              <FontAwesome name="map" size={24} color="white" onPress={openGoogleMaps} />
+              <FontAwesome name="gift" size={24} color="white" />
             </TouchableOpacity>
           )}
         </View>
@@ -312,18 +417,25 @@
     },
     searchContainer: {
       position: "absolute",
-      backgroundColor: "white",
+
       width: "90%",
-      height: 45,
       top: 50,
-      borderRadius: 40,
+      flexDirection: "column",
+
+      alignItems: "center",
+    },
+    chipstyle: {
+      display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
-      paddingHorizontal: 20,
+      alignItems: "center",
+      height: 45,
+      backgroundColor: "white",
       elevation: 10,
+      paddingHorizontal: 20,
       zIndex: 1,
       opacity: 0.9,
-      alignItems: "center",
+      borderRadius: 40,
     },
     searchInput: {
       flex: 1,
@@ -388,5 +500,18 @@
       fontSize: 16,
       fontWeight: "bold",
     },
-    marker: {},
+    buttonGift: {
+      width: 50,
+      height: 50,
+      backgroundColor: "#FF9500",
+      borderRadius: 40,
+      alignItems: "center",
+      justifyContent: "center",
+      marginBottom: 10,
+      elevation: 10,
+    },
+    // style do callout
+    callout: {
+      width: 200,
+    },
   });

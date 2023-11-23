@@ -13,9 +13,9 @@ export default function Presentation() {
     <View style={styles.container}>
       {/* <ion-icon name="heart-half-outline"></ion-icon> */}
       <Text
-        onPress={async() => {
+        onPress={async () => {
           await AsyncStorage.setItem("button", "true");
-          navigation.navigate("Login")
+          navigation.navigate("Login");
         }}
         style={styles.buttonIcon}
       >
@@ -33,8 +33,17 @@ export default function Presentation() {
         style={styles.clothing}
       />
       <View style={styles.div}>
-        <Text style={styles.title}>Faça a diferença!</Text>
-        <Text style={styles.subtitle}>
+        <Text
+          style={{
+            fontFamily: "Inter_700Bold",
+            fontSize: 24,
+            marginBottom: 10,
+          }
+          }
+        >Faça a diferença!</Text>
+        <Text
+          style={{ fontFamily: "Inter_500Medium" }}
+        >
           Ajude aqueles que precisam doando suas roupas para instituições de
           caridade locais. Junte-se à comunidade Snuggler e cause um impacto
           positivo na vida de outras pessoas.
@@ -95,6 +104,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 40,
     left: 100,
+    fontFamily: "Inter_700Bold",
+    
   },
   logo: {
     width: 50,
@@ -115,9 +126,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 10,
-  },
-  subtitle: {
-    fontSize: 14,
   },
 
   button: {

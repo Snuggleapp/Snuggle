@@ -8,6 +8,9 @@ import Map from "./pages/Map";
 import DonationApp from "./pages/DonationApp";
 import Shopping from "./pages/Shopping";
 import Donation from "./pages/Donation";
+import DonationFoto from "./pages/DonationFoto";
+import DonationConfirm from "./pages/DontationConfirm";
+import Agradecimento from "./pages/Agradecimento";
 // Presentation
 import Presentation from "./pages/Presentation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -62,6 +65,21 @@ function AppNavigator() {
           name="Donation"
           component={Donation}
           options={{ title: "Donation", headerShown: false }}
+        />
+        <Stack.Screen
+          name="DonationFoto"
+          component={DonationFoto}
+          options={{ title: "DonationFoto", headerShown: false }}
+        />
+        <Stack.Screen
+          name="DonationConfirm"
+          component={DonationConfirm}
+          options={{ title: "DonationConfirm", headerShown: false }}
+        />
+        <Stack.Screen
+          name="Agradecimento"
+          component={Agradecimento}
+          options={{ title: "Agradecimento", headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>
