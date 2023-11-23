@@ -2,12 +2,15 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, initializeAuth } from "firebase/auth";
 import { getReactNativePersistence } from "firebase/auth"; // Importe a função getReactNativePersistence
+import { getDatabase } from "firebase/database";
+import { getFirestore } from "firebase/firestore";
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 
 // Configuração do Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyBhBiEh55AG_vOYyIgrfMpNCOn7JqwlNGQ",
   authDomain: "snuggledoacao.firebaseapp.com",
+  databaseURL: "https://snuggledoacao-default-rtdb.firebaseio.com/",
   projectId: "snuggledoacao",
   storageBucket: "snuggledoacao.appspot.com",
   messagingSenderId: "1012033055362",
@@ -16,8 +19,15 @@ const firebaseConfig = {
 
 // Inicialize o Firebase
 const app = initializeApp(firebaseConfig);
+
+const db = getDatabase();
+
+const fire = getFirestore(app);
+
 const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(ReactNativeAsyncStorage), // Defina o tipo de persistência para 'local'
 });
 
-export { auth };
+export { auth, db, fire};
+// For more information on how to access Firebase in your project,
+// see the Firebase documentation: https://firebase.google.com/docs/web/setup#access-firebase

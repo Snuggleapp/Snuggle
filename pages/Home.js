@@ -1,8 +1,9 @@
 import { useRoute } from "@react-navigation/native";
 import { signOut } from "firebase/auth";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { auth } from "../firebase/config";
+import { auth, fire } from "../firebase/config";
+import { Query, collection, doc, getDocs, query, where } from "firebase/firestore";
 import { Button, Icon } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
@@ -14,6 +15,7 @@ import { StatusBar } from "expo-status-bar";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Linking } from "react-native";
 
+
 export default function Home() {
   // pegar usuario logado
   useRoute();
@@ -24,8 +26,26 @@ export default function Home() {
   // console.log(user.displayName);
   // console.log(user.uid);
 
-
+  const [infoDoacoes, setInfoDoacoes] = useState([])
+  const [qtdDoacao, setQtdDoacao] = useState(0)
   
+  const dadosDoacao = async () => {
+    const docRef = await query(collection(fire, "Donations"), where("UID", "==", user.uid));
+    const docSnap = await getDocs(docRef);
+    setQtdDoacao(docSnap.size)
+    docSnap.forEach((doc) => {
+      setInfoDoacoes([...infoDoacoes, doc.data()]);
+    })
+  }
+
+  useEffect(() => {
+    dadosDoacao();
+  }, [])
+
+  useEffect(() => {
+    console.log(infoDoacoes)
+  }, [infoDoacoes])
+
   const name =
     user.displayName.split(" ")[0] + " " + user.displayName.split(" ")[1];
   return (
@@ -53,8 +73,8 @@ export default function Home() {
           <Image source={TocaAqui} style={{ width: 50, height: 50 }} />
 
           <View style={styles.cardTextBox}>
-            <Text style={styles.cardText}>Doações do mês</Text>
-            <Text style={styles.cardText1}>10</Text>
+            <Text style={styles.cardText}>Todas as Doações</Text>
+            <Text style={styles.cardText1}>{qtdDoacao}</Text>
           </View>
         </View>
         <View style={styles.cardBottom}>
@@ -132,7 +152,7 @@ export default function Home() {
           color="black"
         />
       </TouchableOpacity>
-     
+
       <Text style={styles.line}></Text>
       <View style={styles.social}>
         {/* icone do istagram */}
