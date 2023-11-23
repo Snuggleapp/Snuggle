@@ -91,7 +91,6 @@ export default function Login() {
     );
   }
 
-  console.log(isLoading);
 
 
   return (

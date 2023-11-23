@@ -16,11 +16,15 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { Linking } from "react-native";
 
 
-export default function Home() {
+export default function Home({ navigation}) {
   // pegar usuario logado
-  useRoute();
-  const navigation = useNavigation();
+  
+  // const navigation = useNavigation();
   const user = auth.currentUser;
+
+
+
+
 
   // console.log(user.email);
   // console.log(user.displayName);
@@ -32,19 +36,25 @@ export default function Home() {
   const dadosDoacao = async () => {
     const docRef = await query(collection(fire, "Donations"), where("UID", "==", user.uid));
     const docSnap = await getDocs(docRef);
-    setQtdDoacao(docSnap.size)
-    docSnap.forEach((doc) => {
-      setInfoDoacoes([...infoDoacoes, doc.data()]);
-    })
+    setInfoDoacoes(docSnap.docs.map((doc) => doc.data()));
+    setQtdDoacao(docSnap.docs.length)
+    
+
   }
 
-  useEffect(() => {
-    dadosDoacao();
-  }, [])
+
+
+  
+
 
   useEffect(() => {
-    console.log(infoDoacoes)
-  }, [infoDoacoes])
+    navigation.addListener('focus', () => {
+      dadosDoacao();
+      console.log("fala baixo neague");
+      
+    })
+  }, [navigation])
+
 
   const name =
     user.displayName.split(" ")[0] + " " + user.displayName.split(" ")[1];

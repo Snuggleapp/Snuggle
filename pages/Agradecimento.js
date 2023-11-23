@@ -6,6 +6,8 @@ import { Text, StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { set } from "firebase/database";
+
 
 export default function Agradecimento() {
 
@@ -37,7 +39,7 @@ export default function Agradecimento() {
       {/* botao para voltar para home */}
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate("Home1")}
+        onPress={() => navigation.navigate("Home1",{ reload: true })}
       >
         <Text style={styles.buttonText}>Voltar para Home</Text>
       </TouchableOpacity>

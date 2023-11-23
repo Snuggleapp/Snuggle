@@ -63,7 +63,7 @@ return (
       style={styles.button}
       mode="contained"
       onPress={() => {
-        //navigation.navigate("Agradecimento");
+        navigation.navigate("Agradecimento");
         data.map((item) => (
         adicionarDoacao(item)
         ));
