@@ -3,7 +3,7 @@ import { signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { auth, fire } from "../firebase/config";
-import { Query, collection, doc, getDocs, query, where } from "firebase/firestore";
+import { Query, collection, doc, getDocs, orderBy, query, where } from "firebase/firestore";
 import { Button, Icon } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
@@ -14,6 +14,7 @@ import TocaAqui from "../assets/toca-aqui.png";
 import { StatusBar } from "expo-status-bar";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Linking } from "react-native";
+import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 
 
 export default function Home({ navigation}) {
@@ -21,6 +22,8 @@ export default function Home({ navigation}) {
   
   // const navigation = useNavigation();
   const user = auth.currentUser;
+  const [ultimateDonation, setUltimateDonation] = useState("")
+  const [ultimoLocal, setUltimoLocal] = useState("")
 
 
 
@@ -34,11 +37,19 @@ export default function Home({ navigation}) {
   const [qtdDoacao, setQtdDoacao] = useState(0)
   
   const dadosDoacao = async () => {
-    const docRef = await query(collection(fire, "Donations"), where("UID", "==", user.uid));
+    const docRef = await query(collection(fire, "Donations"), where("UID", "==", user.uid), orderBy("createdAt", "desc"));
     const docSnap = await getDocs(docRef);
     setInfoDoacoes(docSnap.docs.map((doc) => doc.data()));
-    setQtdDoacao(docSnap.docs.length)
+        const docRef1 = await query(collection(fire, "Locations"), where("id", "==", docSnap.docs[0].data().idLocalizacao));
+    const docSnap1 = await getDocs(docRef1);
+
+    setUltimoLocal(docSnap1.docs[0].data().titulo)
     
+
+    setQtdDoacao(docSnap.docs.length)
+    setUltimateDonation(
+      docSnap.docs[0].data().createdAt.toDate().toLocaleDateString("pt-BR")
+    );
 
   }
 
@@ -50,7 +61,6 @@ export default function Home({ navigation}) {
   useEffect(() => {
     navigation.addListener('focus', () => {
       dadosDoacao();
-      console.log("fala baixo neague");
       
     })
   }, [navigation])
@@ -65,7 +75,13 @@ export default function Home({ navigation}) {
       <View style={styles.userContainer}>
         <Image
           source={{ uri: user.photoURL }}
-          style={{ width: 50, height: 50, borderRadius: 25, borderColor: "#ccc", borderWidth: 1.5 }}
+          style={{
+            width: 50,
+            height: 50,
+            borderRadius: 25,
+            borderColor: "#ccc",
+            borderWidth: 1.5,
+          }}
         />
         <View style={styles.userInfo}>
           <View style={styles.welcomeContainer}>
@@ -84,24 +100,41 @@ export default function Home({ navigation}) {
 
           <View style={styles.cardTextBox}>
             <Text style={styles.cardText}>Todas as Doações</Text>
-            <Text style={styles.cardText1}>{qtdDoacao}</Text>
+            <Text style={styles.cardText12}>{qtdDoacao} Itens</Text>
           </View>
         </View>
         <View style={styles.cardBottom}>
           {/* total do ano */}
           <View style={styles.cardTextBoxBottom}>
-            <Text style={styles.cardTextBottom}>Total do ano</Text>
-            <Text style={styles.cardTextBottom1}>100 itens</Text>
+            <Text style={styles.cardTextBottom}>Pontos</Text>
+            <Text style={styles.cardTextBottom1}>
+              {/* icone de moeda */}
+              <FontAwesome5
+                name="gifts"
+                size={16}
+                color="#1a73e8"
+                style={{ marginRight: 5 }}
+              />
+              <Text
+                style={{
+                  marginLeft: 5,
+                  fontSize: 16,
+                }}
+              >
+                {" "}
+                {qtdDoacao * 3}
+              </Text>
+            </Text>
           </View>
           <View style={styles.cardTextBoxBottom}>
             {/* ultima doação */}
-            <Text style={styles.cardTextBottom}>Ultima doação</Text>
-            <Text style={styles.cardTextBottom1}>Asa Norte</Text>
+            <Text style={styles.cardTextBottom}>Ultimo Local</Text>
+            <Text style={styles.cardTextBottom1}>{ultimoLocal}</Text>
           </View>
 
           <View style={styles.cardTextBoxBottom1}>
-            <Text style={styles.cardTextBottom}>Doando desde</Text>
-            <Text style={styles.cardTextBottom1}>2021</Text>
+            <Text style={styles.cardTextBottom}>Ultima Doação{}</Text>
+            <Text style={styles.cardTextBottom1}>{ultimateDonation}</Text>
           </View>
         </View>
       </View>
@@ -177,12 +210,12 @@ export default function Home({ navigation}) {
           }}
         />
         {/* icone do tw */}
-        <Ionicons
+        <FontAwesome5 
+          // animação
           style={styles.iconBottom}
-          name="logo-twitter"
+          name="twitter"
           size={24}
           color="black"
-
           // redirecionar para o twitter
           onPress={() => {
             Linking.openURL("https://twitter.com/");
@@ -201,7 +234,7 @@ export default function Home({ navigation}) {
         />
       </View>
       {/* botao para deslogar */}
-      <Button
+      <TouchableOpacity
         style={styles.buttonSair}
         mode="contained"
         onPress={() => {
@@ -210,8 +243,8 @@ export default function Home({ navigation}) {
           navigation.navigate("Login");
         }}
       >
-        Sair
-      </Button>
+        <Text style={{ color: "#fff", fontSize: 20 }}>Sair</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -379,6 +412,7 @@ const styles = StyleSheet.create({
     // tamanho do texto
     fontSize: 20,
     width: "80%",
+    height: 40,
     // alinhar no centro
     alignSelf: "center",
 
@@ -397,6 +431,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     elevation: 4,
+    // text alinhar no centro
+    textAlign: "center",
+    justifyContent: "center",
   },
   button: {
     flexDirection: "row",
@@ -420,5 +457,12 @@ const styles = StyleSheet.create({
     // tamanho do texto
     // cor do texto cinza nao tao claro
     color: "#A8A7A7",
+  },
+
+  cardText12: {
+    // tamanho do texto
+    fontSize: 20,
+    // cor do texto cinza nao tao claro
+    color: "#1a73e8",
   },
 });

@@ -5,7 +5,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { Button, DataTable } from "react-native-paper";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, Timestamp} from "firebase/firestore";
 import uuid from "react-native-uuid"
 import { fire } from "../firebase/config";
 
@@ -24,7 +24,9 @@ export default function DonationConfirm() {
         idLocalizacao: item.idlocal,
         tamanho: getTamanho(item.tamanhos),
         tipo: item.tipo,
-        quantidade: item.quantidade
+        quantidade: item.quantidade,
+        createdAt: Timestamp.fromDate(new Date()),
+
       })
   };
 
@@ -58,6 +60,7 @@ return (
         </DataTable.Row>
       </DataTable>
     ))}
+
     {/* botão de confirmar e ir para agradecimentos */}
     <Button
       style={styles.button}

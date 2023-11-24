@@ -134,7 +134,9 @@ export default function Donation() {
                   justifyContent: "space-between",
                 }}
               >
-                <RadioButton color="#1a73e8" value="Camiseta" />
+                
+                <RadioButton color="#1a73e8" value="Camiseta"  />
+
                 <Text>Camiseta</Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -467,7 +469,7 @@ const styles = StyleSheet.create({
   iconDelete: {
     width: 30,
     height: 30,
-    backgroundColor: "red",
+    backgroundColor: "#FF3B30",
     textAlign: "center",
     textAlignVertical: "center",
     borderRadius: 50,
@@ -487,8 +489,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "#fff",
-
-
   },
   button: {
     position: "absolute",
@@ -501,9 +501,4 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#1a73e8",
   },
-  
-
-
-  
-
 });

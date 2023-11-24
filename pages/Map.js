@@ -12,6 +12,15 @@ import {
 import MapView, { Marker } from "react-native-maps";
 import { FontAwesome } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { auth, fire } from "../firebase/config";
+import {
+  Query,
+  collection,
+  doc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 
 import { useNavigation } from "@react-navigation/native";
 // status bar
@@ -182,37 +191,28 @@ export default function Map() {
     //
   ];
 
-  const markers = [
-    {
-      coordinate: {
-        latitude: -15.766597639874032,
-        longitude: -47.89359676825209,
-      },
-      title: "Uniceub",
-      description: "Centro de Doação",
-      id: "1",
-    },
-    {
-      coordinate: {
-        latitude: -15.7801,
-        longitude: -47.9292,
-      },
-      title: "Hospital",
-      description: "Hospital Central",
-      id: "2",
-    },
+  const [markers, setMarkers] = useState([]);
 
-    {
-      // -15.79328042283634, -47.88130073198738
-      coordinate: {
-        latitude: -15.79328042283634,
-        longitude: -47.88130073198738,
-      },
-      title: "Conjunto nacional",
-      description: "Centro de Doação",
-      id: "3",
-    },
-  ];
+  useEffect(() => {
+    const getMarkers = async () => {
+      const markersCollection = collection(fire, "Locations");
+      const markersSnapshot = await getDocs(markersCollection);
+      const markersList = markersSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        coordinate: {
+          latitude: doc.data().latitude,
+          longitude: doc.data().longitude,
+        },
+        descricao: doc.data().descricao,
+        titulo: doc.data().titulo,
+        ...doc.data(),
+      }));
+      setMarkers(markersList);
+    };
+    getMarkers();
+  }, []);
+
+
 
   const acharPosto = async () => {
     let minDistance = null;
@@ -231,7 +231,6 @@ export default function Map() {
     return nearestMarker;
   };
 
-  // função para ir para a o marcador mais proximo
   const goToNearestMarker = async () => {
     const nearestMarker = await acharPosto();
     setSelectedMarker(nearestMarker);
@@ -357,22 +356,20 @@ export default function Map() {
         {markers.map((marker, index) => (
           <Marker
             key={index}
+            ref={markerRef}
             coordinate={marker.coordinate}
-            title={marker.title}
-            description={marker.description}
-            ref={(el) => {
-              if (selectedMarker?.id === marker.id) {
-                markerRef.current = el;
-              }
-            }}
+            title={marker.titulo}
+            description={marker.descricao}
             onPress={() => {
+              setSelectedMarker(marker);
               setShowMarkerButtons(true);
               setMapIsMoving(true);
-              setSelectedMarker(marker);
+                         
             }}
           >
             <FontAwesome name="gift" size={30} color="#1a73e8" />
           </Marker>
+         
         ))}
       </MapView>
 
