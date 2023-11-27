@@ -19,9 +19,13 @@ import { auth } from "../firebase/config";
 import FlashMessage, { showMessage } from "react-native-flash-message";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ActivityIndicator } from "react-native-paper";
+import { ActivityIndicator, Button, TextInput } from "react-native-paper";
+import { FontAwesome } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function Login() {
+    const [text, setText] = React.useState("eye-off");
+
   const navigation = useNavigation();
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     clientId:
@@ -37,7 +41,7 @@ export default function Login() {
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential).then((userCredential) => {
         navigation.navigate("Home");
-        AsyncStorage.setItem("login","1");
+        AsyncStorage.setItem("login", "1");
       });
     } else {
       setIsLoading(false);
@@ -53,16 +57,12 @@ export default function Login() {
         // passar rota para home
         navigation.navigate("Home");
         // salvar login
-        AsyncStorage.setItem("login","1");
-        
-
-      }
-      else{
+        AsyncStorage.setItem("login", "1");
+      } else {
         setIsLoading(false);
       }
     });
   }, []);
-
 
   useEffect(() => {
     // printar user
@@ -71,9 +71,7 @@ export default function Login() {
         // passar rota para home
         navigation.navigate("Home");
         // salvar login
-        AsyncStorage.setItem("login","1");
-        
-
+        AsyncStorage.setItem("login", "1");
       }
     });
   }, []);
@@ -85,31 +83,161 @@ export default function Login() {
   if (isLoading) {
     return (
       <View style={styles.load}>
-        <Image style={styles.loadingImage} source={require("../assets/logo.png")} />
-        
+        <Image
+          style={styles.loadingImage}
+          source={require("../assets/logo.png")}
+        />
       </View>
     );
   }
 
 
-
   return (
     <SafeAreaView style={styles.container}>
-      <Image style={styles.bg} source={require("../assets/bg.png")} />
-      <Image style={styles.logo} source={require("../assets/logo.png")} />
-      <Pressable
-        style={styles.button}
-        onPress={() => {
-          promptAsync();
-          setIsLoading(true);
+      <LinearGradient
+        colors={["#5ac8fa", "#34aadc", "#007aff"]}
+        // tipo
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.bg}
+      ></LinearGradient>
 
+      <Button
+        style={{ position: "absolute", top: 0, left: 5 }}
+        onPress={() => {
+          navigation.navigate("Presentation");
         }}
       >
-        <Image source={require("../assets/google.png")} style={styles.icon} />
-        <Text style={styles.buttonText}
-        >Entrar com Google</Text>
-      </Pressable>
-      <FlashMessage position="top" />
+        <FontAwesome
+          name="arrow-left"
+          size={16}
+          // cor gradiente
+          color="#34aadc"
+          style={{
+            marginTop: 50,
+            marginLeft: 20,
+            // cor do fundo
+            backgroundColor: "#fff",
+            width: 40,
+            height: 40,
+            borderRadius: 50,
+            // sombra
+            shadowColor: "#000",
+            shadowOffset: {
+              height: 2,
+              width: 0,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 40,
+            elevation: 5,
+            // alinhar texto no centro
+            textAlign: "center",
+            textAlignVertical: "center",
+          }}
+        />
+      </Button>
+
+      <Image style={styles.logo} source={require("../assets/logo.png")} />
+
+      <View style={styles.divBaixo}>
+        <Text style={styles.subtitle}>Sign in</Text>
+        <Text style={styles.subtitle1}>Entre com suas credenciais</Text>
+        {/* input */}
+
+        <TextInput
+          style={{ width: "70%", marginBottom: 10 }}
+          mode="outlined"
+          activeOutlineColor="#34aadc"
+          textColor="#34aadc"
+          dense={true}
+          placeholder="Digite seu e-mail"
+          placeholderTextColor="#d3d3d3"
+          outlineStyle={{
+            // borda em cima
+            borderTopWidth: 0,
+            // borda em baixo
+            borderBottomWidth: 1,
+            // borda em direita
+            borderRightWidth: 0,
+            // borda em esquerda
+            borderLeftWidth: 0,
+            borderRadius: 0,
+          }}
+          contentStyle={{ backgroundColor: "#fff" }}
+        />
+        <TextInput
+          style={{ width: "70%", marginBottom: 10 }}
+          mode="outlined"
+          activeOutlineColor="#34aadc"
+          textColor="#34aadc"
+          dense={true}
+          placeholder="Digite sua senha"
+          placeholderTextColor="#d3d3d3"
+          right={
+            <TextInput.Icon
+              icon="eye"
+              color="#34aadc"
+              outlineColor
+              onPress={() => {
+                setText(text ? "" : "eye-off");
+              }}
+            />
+          }
+          outlineStyle={{
+            // borda em cima
+            borderTopWidth: 0,
+            // borda em baixo
+            borderBottomWidth: 1,
+            // borda em direita
+            borderRightWidth: 0,
+            // borda em esquerda
+            borderLeftWidth: 0,
+            borderRadius: 0,
+          }}
+          secureTextEntry={text === "eye-off" ? true : false}
+          contentStyle={{ backgroundColor: "#fff" }}
+        />
+
+        <Button
+          style={{
+            marginTop: 16,
+            width: "70%",
+            // sombra
+            shadowColor: "#000",
+            shadowOffset: {
+              height: 2,
+              width: 0,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 40,
+            elevation: 5,
+          }}
+          mode="contained"
+          buttonColor="#34aadc"
+          textColor="#fff"
+          onPress={() => {}}
+        >
+          Entrar
+        </Button>
+
+        {/* ou  */}
+        <View style={styles.block}>
+          <View style={styles.line} />
+          <Text style={styles.subtitle2}>Ou login com</Text>
+          <View style={styles.line} />
+        </View>
+
+        <FlashMessage position="top" />
+        <Pressable
+          style={styles.button}
+          onPress={() => {
+            promptAsync();
+            setIsLoading(true);
+          }}
+        >
+          <Image source={require("../assets/google.png")} style={styles.icon} />
+        </Pressable>
+      </View>
     </SafeAreaView>
   );
 }
@@ -127,59 +255,41 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   subtitle: {
-    // um pouco mais pra baixo
-    color: "#5ac8fa",
-    fontSize: 30,
+    marginTop: 16,
+    color: "#34aadc",
+    fontSize: 24,
     fontWeight: "bold",
-    // centralizar
-    textAlign: "center",
-    // sombra no texto
-    textShadowColor: "#2B85E6",
-    textShadowOffset: {
-      height: 2,
-      width: 0,
-    },
-    textShadowRadius: 1,
+  },
+  subtitle1: {
+    color: "#34aadc",
+    fontSize: 16,
+    marginBottom: 16,
   },
   button: {
-    // posicionar no final
-    position: "absolute",
-    bottom: 32,
-
-    alignItems: "center",
+    // cor de fundo
     backgroundColor: "#fff",
-    borderRadius: 50,
+    display: "flex",
     flexDirection: "row",
-    marginBottom: 16,
-    // espaçamento entre eles
-
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    // fazer sombra
+    alignItems: "center",
+    justifyContent: "center",
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    // sombra
     shadowColor: "#000",
     shadowOffset: {
       height: 2,
       width: 0,
     },
     shadowOpacity: 0.25,
-    shadowRadius: 50,
+    shadowRadius: 40,
     elevation: 5,
-    // tamanho
-    height: 48,
-    width: 300,
+    marginTop: 16,
   },
-  buttonText: {
-    color: "#000",
-    fontSize: 16,
-    fontWeight: "bold",
-    marginLeft: 8,
-    fontFamily: "Inter_700Bold",
-  },
+
   icon: {
     height: 24,
     width: 24,
-    // espaço a direita
-    marginRight: 50,
   },
   user: {
     alignItems: "center",
@@ -192,7 +302,6 @@ const styles = StyleSheet.create({
     width: 48,
     // cor da borda
     borderColor: "black",
-    
   },
   userText: {
     fontSize: 16,
@@ -245,10 +354,53 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#fff",
-
   },
   loadingImage: {
     width: 200,
     height: 200,
+  },
+  divBaixo: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    backgroundColor: "#fff",
+    flex: 1,
+    alignItems: "center",
+    // bordas de cima
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    // sombra em cima
+    shadowColor: "#000",
+    shadowOffset: {
+      height: 2,
+      width: 0,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 40,
+    elevation: 5,
+    // padding
+    paddingBottom: 20,
+    paddingTop: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+
+  block: {
+    marginTop: 20,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+
+  line: {
+    width: "30%",
+    height: 1,
+    // cor de fundo cinza claro
+    backgroundColor: "#d3d3d3",
+    margin: 10,
+  },
+  subtitle2: {
+    color: "#d3d3d3",
+    fontSize: 16,
   },
 });
