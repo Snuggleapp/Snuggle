@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
 
   button: {
     alignItems: "center",
-    backgroundColor: "#1a73e8",
+    backgroundColor: "#34aadc",
     borderRadius: 50,
     height: 60,
     justifyContent: "center",
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     // cor do fundo
-    backgroundColor: "#1a73e8",
+    backgroundColor: "#34aadc",
     position: "absolute",
     bottom: 0,
   },
@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
     position: "absolute",
     // cor do fundo
-    backgroundColor: "#1a73e8",
+    backgroundColor: "#34aadc",
     top: 50,
     left: 10,
     width: 30,
@@ -276,6 +276,5 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     alignItems: "center",
     justifyContent: "center",
-
   },
 });

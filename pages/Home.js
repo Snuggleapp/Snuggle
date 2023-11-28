@@ -112,7 +112,7 @@ export default function Home({ navigation}) {
               <FontAwesome5
                 name="gifts"
                 size={16}
-                color="#1a73e8"
+                color="#34aadc"
                 style={{ marginRight: 5 }}
               />
               <Text
@@ -147,7 +147,7 @@ export default function Home({ navigation}) {
           style={styles.iconBottom}
           name="heart-half-outline"
           size={20}
-          color="#1a73e8"
+          color="#34aadc"
         />
         <View style={styles.conteinerText}>
           <Text style={styles.buttonText}>Doe agasalhos</Text>
@@ -163,7 +163,7 @@ export default function Home({ navigation}) {
           }}
           name="chevron-forward-outline"
           size={24}
-          color="black"
+          color="#34aadc"
         />
       </TouchableOpacity>
 
@@ -176,7 +176,7 @@ export default function Home({ navigation}) {
           style={styles.iconBottom}
           name="card-outline"
           size={20}
-          color="#1a73e8"
+          color="#34aadc"
         />
         <View style={styles.conteinerText}>
           <Text style={styles.buttonText}>Ajude o Snuggle</Text>
@@ -192,46 +192,36 @@ export default function Home({ navigation}) {
           }}
           name="chevron-forward-outline"
           size={24}
-          color="black"
+          color="#34aadc"
         />
       </TouchableOpacity>
 
       <Text style={styles.line}></Text>
       <View style={styles.social}>
         {/* icone do istagram */}
-        <Ionicons
-          style={styles.iconBottom}
-          name="logo-instagram"
-          size={24}
-          color="black"
-          // redirecionar para o instagram
-          onPress={() => {
-            Linking.openURL("https://www.instagram.com/");
-          }}
-        />
+        <View style={styles.iconBottom1}>
+          <Image
+            source={require("../assets/instagram.png")}
+            style={{ width: 24, height: 24 }}
+          />
+        </View>
+
         {/* icone do tw */}
-        <FontAwesome5 
-          // animação
-          style={styles.iconBottom}
-          name="twitter"
-          size={24}
-          color="black"
-          // redirecionar para o twitter
-          onPress={() => {
-            Linking.openURL("https://twitter.com/");
-          }}
-        />
+
+        <View style={styles.iconBottom1}>
+          <Image
+            source={require("../assets/twitter.png")}
+            style={{ width: 24, height: 24 }}
+          />
+        </View>
+
         {/* icone do face */}
-        <Ionicons
-          style={styles.iconBottom}
-          name="logo-facebook"
-          size={24}
-          color="black"
-          // redirecionar para o facebook
-          onPress={() => {
-            Linking.openURL("https://www.facebook.com/");
-          }}
-        />
+        <View style={styles.iconBottom1}>
+          <Image
+            source={require("../assets/facebook.png")}
+            style={{ width: 24, height: 24 }}
+          />
+        </View>
       </View>
       {/* botao para deslogar */}
       <TouchableOpacity
@@ -408,7 +398,7 @@ const styles = StyleSheet.create({
   buttonSair: {
     marginTop: 50,
     // cor do fundo
-    backgroundColor: "#1a73e8",
+    backgroundColor: "#34aadc",
     // tamanho do texto
     fontSize: 20,
     width: "80%",
@@ -463,6 +453,28 @@ const styles = StyleSheet.create({
     // tamanho do texto
     fontSize: 20,
     // cor do texto cinza nao tao claro
-    color: "#1a73e8",
+    color: "#34aadc",
   },
+  iconBottom1: {
+    width: 50,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+
+    // espaço a esquerda
+    marginLeft: 10,
+    // cor do fundo
+    backgroundColor: "white",
+    borderRadius: 50,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+  },
+
 });

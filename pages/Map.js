@@ -275,7 +275,7 @@ export default function Map() {
           <Chip
             elevated={true}
             icon={() => (
-              <FontAwesome name="map-marker" color={"#1a73e8"} size={16} />
+              <FontAwesome name="map-marker" color={"#34aadc"} size={16} />
             )}
             textStyle={{ fontFamily: "Inter_500Medium" }}
             style={{
@@ -302,7 +302,7 @@ export default function Map() {
           {mapIsMoving && (
             <Chip
               icon={() => (
-                <FontAwesome5 name="route" color={"#1a73e8"} size={16} />
+                <FontAwesome5 name="route" color={"#34aadc"} size={16} />
               )}
               style={{
                 marginTop: 10,
@@ -328,7 +328,7 @@ export default function Map() {
 
       {loading && (
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#1a73e8" />
+          <ActivityIndicator size="large" color="#34aadc" />
         </View>
       )}
       {notFound && (
@@ -364,12 +364,10 @@ export default function Map() {
               setSelectedMarker(marker);
               setShowMarkerButtons(true);
               setMapIsMoving(true);
-                         
             }}
           >
-            <FontAwesome name="gift" size={30} color="#1a73e8" />
+            <FontAwesome name="gift" size={30} color="#34aadc" />
           </Marker>
-         
         ))}
       </MapView>
 
@@ -437,7 +435,7 @@ const styles = StyleSheet.create({
   searchButton: {
     width: 35,
     height: 35,
-    backgroundColor: "#1a73e8",
+    backgroundColor: "#34aadc",
     borderRadius: 40,
     alignItems: "center",
     justifyContent: "center",
@@ -455,7 +453,7 @@ const styles = StyleSheet.create({
   button: {
     width: 50,
     height: 50,
-    backgroundColor: "#1a73e8",
+    backgroundColor: "#34aadc",
     borderRadius: 40,
     alignItems: "center",
     justifyContent: "center",
@@ -465,7 +463,7 @@ const styles = StyleSheet.create({
   buttonLocation: {
     width: 50,
     height: 50,
-    backgroundColor: "#1a73e8",
+    backgroundColor: "#34aadc",
     borderRadius: 40,
     alignItems: "center",
     justifyContent: "center",

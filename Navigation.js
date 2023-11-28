@@ -113,10 +113,10 @@ function TabNavigator({ route }) {
         options={{
           headerShown: false,
           tabBarLabel: "",
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color, size, focused }) => (
             <MaterialCommunityIcons
               name="account"
-              color={color}
+              color={focused ? "#34aadc" : color}
               size={30}
               // style
               style={{ marginTop: 8 }}
@@ -130,10 +130,10 @@ function TabNavigator({ route }) {
         options={{
           headerShown: false,
           tabBarLabel: "",
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color, size, focused }) => (
             <MaterialCommunityIcons
               name="map"
-              color={color}
+              color={focused ? "#34aadc" : color}
               size={30}
               style={{
                 marginTop: 10,
@@ -168,11 +168,11 @@ function TabNavigator({ route }) {
         options={{
           headerShown: false,
           tabBarLabel: "",
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color, size, focused }) => (
             <MaterialCommunityIcons
               // coin
               name="cart"
-              color={color}
+              color={focused ? "#34aadc" : color}
               size={30}
               style={{ marginTop: 8 }}
             />

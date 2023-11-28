@@ -20,11 +20,12 @@ import FlashMessage, { showMessage } from "react-native-flash-message";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ActivityIndicator, Button, TextInput } from "react-native-paper";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function Login() {
-    const [text, setText] = React.useState("eye-off");
+
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
 
   const navigation = useNavigation();
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
@@ -145,7 +146,7 @@ export default function Login() {
         {/* input */}
 
         <TextInput
-          style={{ width: "70%", marginBottom: 10 }}
+          style={{ width: "80%", marginBottom: 10 }}
           mode="outlined"
           activeOutlineColor="#34aadc"
           textColor="#34aadc"
@@ -165,24 +166,21 @@ export default function Login() {
           }}
           contentStyle={{ backgroundColor: "#fff" }}
         />
+        <View style={{ 
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          width: "80%",
+          justifyContent: "center",
+        }} >
         <TextInput
-          style={{ width: "70%", marginBottom: 10 }}
+          style={{ width: "100%", marginBottom: 10 }}
           mode="outlined"
           activeOutlineColor="#34aadc"
           textColor="#34aadc"
           dense={true}
           placeholder="Digite sua senha"
           placeholderTextColor="#d3d3d3"
-          right={
-            <TextInput.Icon
-              icon="eye"
-              color="#34aadc"
-              outlineColor
-              onPress={() => {
-                setText(text ? "" : "eye-off");
-              }}
-            />
-          }
           outlineStyle={{
             // borda em cima
             borderTopWidth: 0,
@@ -194,9 +192,23 @@ export default function Login() {
             borderLeftWidth: 0,
             borderRadius: 0,
           }}
-          secureTextEntry={text === "eye-off" ? true : false}
           contentStyle={{ backgroundColor: "#fff" }}
+          secureTextEntry={secureTextEntry}
+          // icon de olho
         />
+        <FontAwesome5 name="eye" size={16} color="#34aadc" 
+        onPress={() => {
+          setSecureTextEntry(!secureTextEntry);
+        }}
+        style={{
+          position: "absolute",
+          right: 10,
+          
+          
+         }}
+
+         />
+         </View>
 
         <Button
           style={{

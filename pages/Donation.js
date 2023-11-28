@@ -118,13 +118,11 @@ export default function Donation() {
               value={tipoRoupa}
             >
               <TouchableOpacity
-              
-                  // selecionar o tipo de roupa e fechar o modal
+                // selecionar o tipo de roupa e fechar o modal
                 onPress={() => {
                   setTipoRoupa("Camiseta");
                   setOpen(false);
                 }}
-
                 style={{
                   flexDirection: "row-reverse",
                   alignItems: "center",
@@ -134,18 +132,15 @@ export default function Donation() {
                   justifyContent: "space-between",
                 }}
               >
-                
-                <RadioButton color="#1a73e8" value="Camiseta"  />
+                <RadioButton color="#34aadc" value="Camiseta" />
 
                 <Text>Camiseta</Text>
               </TouchableOpacity>
               <TouchableOpacity
-
                 onPress={() => {
                   setTipoRoupa("Calça");
                   setOpen(false);
                 }}
-
                 style={{
                   flexDirection: "row-reverse",
                   alignItems: "center",
@@ -157,18 +152,15 @@ export default function Donation() {
                 }}
                 // inverter a ordem dos itens
               >
-                <RadioButton color="#1a73e8" value="Calça" />
+                <RadioButton color="#34aadc" value="Calça" />
                 <Text>Calça</Text>
               </TouchableOpacity>
               {/* casaco */}
               <TouchableOpacity
-
                 onPress={() => {
                   setTipoRoupa("Casaco");
                   setOpen(false);
                 }}
-
-                
                 style={{
                   flexDirection: "row-reverse",
                   alignItems: "center",
@@ -178,7 +170,7 @@ export default function Donation() {
                   justifyContent: "space-between",
                 }}
               >
-                <RadioButton color="#1a73e8" value="Casaco" />
+                <RadioButton color="#34aadc" value="Casaco" />
                 <Text>Casaco</Text>
               </TouchableOpacity>
             </RadioButton.Group>
@@ -210,7 +202,7 @@ export default function Donation() {
             onPress={() => toggleTamanho("P")}
             style={[
               styles.checkbox,
-              { backgroundColor: tamanhos.P ? "#1a73e8" : "gray" },
+              { backgroundColor: tamanhos.P ? "#34aadc" : "gray" },
             ]}
           >
             <Text style={styles.tamanho}>P</Text>
@@ -220,7 +212,7 @@ export default function Donation() {
             style={[
               styles.checkbox,
               {
-                backgroundColor: tamanhos.M ? "#1a73e8" : "gray",
+                backgroundColor: tamanhos.M ? "#34aadc" : "gray",
                 shadowColor: "#000",
                 shadowOffset: {
                   height: 2,
@@ -239,7 +231,7 @@ export default function Donation() {
             onPress={() => toggleTamanho("G")}
             style={[
               styles.checkbox,
-              { backgroundColor: tamanhos.G ? "#1a73e8" : "gray" },
+              { backgroundColor: tamanhos.G ? "#34aadc" : "gray" },
             ]}
           >
             <Text style={styles.tamanho}>G</Text>
@@ -248,7 +240,7 @@ export default function Donation() {
             onPress={() => toggleTamanho("GG")}
             style={[
               styles.checkbox,
-              { backgroundColor: tamanhos.GG ? "#1a73e8" : "gray" },
+              { backgroundColor: tamanhos.GG ? "#34aadc" : "gray" },
             ]}
           >
             <Text style={styles.tamanho}>GG</Text>
@@ -267,28 +259,29 @@ export default function Donation() {
           />
 
           <Text
-          style={{
-            fontSize: 16,
-            fontWeight: "bold",
-            width: 50,
-            textAlign: "center",
-            textAlignVertical: "center",
-            // cor do fundo cinza claro
-            backgroundColor: "#f2f2f2",
-            height: 30,
-            borderRadius: 50,
-            // sombra
-            shadowColor: "#000",
-            shadowOffset: {
-              height: 2,
-              width: 0,
-            },
-            shadowOpacity: 0.25,
-            shadowRadius: 3.84,
-            elevation: 3,
-          }}
-          
-          >{quantidadeRoupas}</Text>
+            style={{
+              fontSize: 16,
+              fontWeight: "bold",
+              width: 50,
+              textAlign: "center",
+              textAlignVertical: "center",
+              // cor do fundo cinza claro
+              backgroundColor: "#f2f2f2",
+              height: 30,
+              borderRadius: 50,
+              // sombra
+              shadowColor: "#000",
+              shadowOffset: {
+                height: 2,
+                width: 0,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 3,
+            }}
+          >
+            {quantidadeRoupas}
+          </Text>
 
           <Ionicons
             style={styles.icon}
@@ -380,7 +373,7 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     marginRight: 16,
-    backgroundColor: "#1a73e8",
+    backgroundColor: "#34aadc",
     textAlign: "center",
     textAlignVertical: "center",
     borderRadius: 50,
@@ -450,7 +443,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontSize: 16,
     fontWeight: "bold",
-    backgroundColor: "#1a73e8",
+    backgroundColor: "#34aadc",
     color: "#fff",
     padding: 8,
     borderRadius: 50,
@@ -499,6 +492,6 @@ const styles = StyleSheet.create({
     height: 40,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#1a73e8",
+    backgroundColor: "#34aadc",
   },
 });

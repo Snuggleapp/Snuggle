@@ -107,13 +107,13 @@ const styles = StyleSheet.create({
     // tirar borda arredondada
     borderRadius: 0,
     // cor do fundo
-    backgroundColor: "#1a73e8",
+    backgroundColor: "#34aadc",
   },
   icon: {
     width: 30,
     height: 30,
     marginRight: 16,
-    backgroundColor: "#1a73e8",
+    backgroundColor: "#34aadc",
     textAlign: "center",
     textAlignVertical: "center",
     borderRadius: 50,
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
     position: "absolute",
     // cor do fundo
-    backgroundColor: "#1a73e8",
+    backgroundColor: "#34aadc",
     top: 50,
     left: 10,
     width: 30,

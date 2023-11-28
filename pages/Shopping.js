@@ -61,6 +61,6 @@ styles = StyleSheet.create({
   text: {
     fontSize: 30,
     fontWeight: "bold",
-    color: "#2B85E6",
+    color: "#34aadc",
   },
 });

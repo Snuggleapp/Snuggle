@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     justifyContent: "center", // alinhar no centro
   },
   buttonIcon: {
-    backgroundColor: "#5ac8fa",
+    backgroundColor: "#34aadc",
     padding: 10,
     borderRadius: 50,
     width: 50,
@@ -105,7 +105,6 @@ const styles = StyleSheet.create({
     top: 40,
     left: 100,
     fontFamily: "Inter_700Bold",
-    
   },
   logo: {
     width: 50,
@@ -129,7 +128,7 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    backgroundColor: "#5ac8fa",
+    backgroundColor: "#34aadc",
     padding: 10,
     borderRadius: 50,
     color: "#fff",
