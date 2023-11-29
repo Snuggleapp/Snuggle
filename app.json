@@ -3,27 +3,11 @@
     "name": "snuggle-tcc",
     "slug": "snuggle-tcc",
     "scheme": "snuggle-tcc",
-    "version": "1.2.3",
+    "version": "1.2.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "plugins": [
-      [
-        "expo-location",
-        {
-          "isAndroidBackgroundLocationEnabled": true
-        }
-      ],
-      
-     [
-       "expo-camera",
-       {
-         "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
-       }
-     ]
-    ],
-
-    "splash": {
+       "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
@@ -34,17 +18,13 @@
       "bundleIdentifier": "com.snuggle.tcc"
     },
     "android": {
-      "permissions": [
-        "ACCESS_FINE_LOCATION",
-        "ACCESS_BACKGROUND_LOCATION"
-      ],
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyBvSPmFjGXTx8IgjHKFnFYo8vi4klUc9ks"
           
         }
       },
-      "versionCode": 34,
+      "versionCode": 35,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
